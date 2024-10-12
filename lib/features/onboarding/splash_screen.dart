@@ -2,10 +2,13 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:myrecipediary/constants/colors.dart';
 import 'package:myrecipediary/themes/text_theme.dart';
 import '../../../common/gaps.dart';
+import '../../constants/font_sizes.dart';
 import '../../routing/app_routes.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -25,12 +28,12 @@ class _SplashScreenState extends State<SplashScreen> {
         _visible = true;
       });
       Future.delayed(
-        const Duration(milliseconds: 5000),
+        const Duration(milliseconds: 4000),
         () {
           // if (FirebaseAuth.instance.currentUser == null) {
           // context.go(AppRoutes.onboarding);
           // } else {
-          //   context.go(AppRoutes.userLocatorPage);
+            context.go(AppRoutes.onboarding);
           // }
         },
       );
@@ -56,13 +59,18 @@ class _SplashScreenState extends State<SplashScreen> {
               width: 112,
             ),
             verticalGap(10),
-            AnimatedOpacity(
-              opacity: _visible ? 1.0 : 0.0,
-              duration: const Duration(milliseconds: 4000),
-              child: Text(
-                "My Recipe Diary",
-                style: AppTextTheme.splashScreenTextStyle,
-              ),
+            AnimatedTextKit(
+              animatedTexts: [
+                TypewriterAnimatedText(
+                  'My Recipe Diary',
+                  textStyle: AppTextTheme.splashScreenTextStyle,
+                  speed: const Duration(milliseconds: 200),
+                ),
+              ],
+              totalRepeatCount: 1,
+              // pause: const Duration(milliseconds: 100),
+              displayFullTextOnTap: true,
+              stopPauseOnTap: false,
             )
           ],
         ),
