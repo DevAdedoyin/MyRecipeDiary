@@ -2,6 +2,10 @@
 import 'package:flutter/material.dart';
 import 'package:myrecipediary/themes/text_theme.dart';
 
+import 'appbar_theme.dart';
+import 'elevated_button_theme.dart';
+import 'icon_button_theme.dart';
+
 class AppTheme {
   AppTheme._();
 

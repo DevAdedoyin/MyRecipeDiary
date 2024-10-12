@@ -10,24 +10,24 @@ import 'package:myrecipediary/themes/theme_notifier.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
-  await dotenv.load(fileName: ".env");
+  // await dotenv.load(fileName: ".env");
   // FirebaseInitialization.initializeFirebase();
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]);
-  WidgetsFlutterBinding.ensureInitialized();
+  // WidgetsFlutterBinding.ensureInitialized();
   // await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  runApp(const ProviderScope(child: WeatherApp()));
+  runApp(const ProviderScope(child: MyRecipeDiary()));
 }
 
-class WeatherApp extends ConsumerStatefulWidget {
-  const WeatherApp({super.key});
+class MyRecipeDiary extends ConsumerStatefulWidget {
+  const MyRecipeDiary({super.key});
 
   @override
-  ConsumerState<WeatherApp> createState() => _WeatherAppState();
+  ConsumerState<MyRecipeDiary> createState() => _MyRecipeDiaryState();
 }
 
-class _WeatherAppState extends ConsumerState<WeatherApp> {
+class _MyRecipeDiaryState extends ConsumerState<MyRecipeDiary> {
   @override
   Widget build(BuildContext context) {
     ThemeManager themeManager = ThemeManager();
@@ -38,7 +38,7 @@ class _WeatherAppState extends ConsumerState<WeatherApp> {
       routeInformationProvider: goRouter.routeInformationProvider,
       routerDelegate: goRouter.routerDelegate,
       debugShowCheckedModeBanner: false,
-      title: 'Weather Monitor',
+      title: 'My Recipe Diary',
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: themeMode,

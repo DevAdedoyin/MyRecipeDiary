@@ -2,7 +2,8 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-
+import 'package:myrecipediary/constants/colors.dart';
+import 'package:myrecipediary/themes/text_theme.dart';
 import '../../../common/gaps.dart';
 import '../../routing/app_routes.dart';
 
@@ -15,18 +16,19 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   var _visible = false;
+
   // final user = FirebaseAuth.instance.currentUser;
   @override
   void initState() {
-    Timer(const Duration(milliseconds: 500), () {
+    Timer(const Duration(milliseconds: 100), () {
       setState(() {
         _visible = true;
       });
       Future.delayed(
         const Duration(milliseconds: 5000),
-            () {
+        () {
           // if (FirebaseAuth.instance.currentUser == null) {
-            context.go(AppRoutes.onboarding);
+          // context.go(AppRoutes.onboarding);
           // } else {
           //   context.go(AppRoutes.userLocatorPage);
           // }
@@ -47,22 +49,19 @@ class _SplashScreenState extends State<SplashScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(
+            Image.asset(
+              "assets/images/logo.png",
+              fit: BoxFit.contain,
               height: 112,
               width: 112,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(70),
-                child:
-                Image.asset("assets/images/logo.png", fit: BoxFit.fill),
-              ),
             ),
             verticalGap(10),
             AnimatedOpacity(
               opacity: _visible ? 1.0 : 0.0,
-              duration: const Duration(milliseconds: 5000),
+              duration: const Duration(milliseconds: 4000),
               child: Text(
-                "Weather Monitor",
-                style: textTheme.titleMedium,
+                "My Recipe Diary",
+                style: AppTextTheme.splashScreenTextStyle,
               ),
             )
           ],

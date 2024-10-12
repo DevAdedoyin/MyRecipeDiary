@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:myrecipediary/constants/font_sizes.dart';
 
 class AppTextTheme {
   AppTextTheme._();
@@ -66,4 +68,11 @@ class AppTextTheme {
     labelMedium: const TextStyle().copyWith(
         fontSize: 12.0, fontWeight: FontWeight.w600, color: Colors.white),
   );
+
+  // Miscellaneous Themes
+  // Splash Screen Text Theme
+  static TextStyle splashScreenTextStyle = GoogleFonts.updock(
+      fontWeight: FontWeight.w700,
+      fontStyle: FontStyle.italic,
+      fontSize: FontSizes.mediumFont);
 }
