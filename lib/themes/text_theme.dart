@@ -8,7 +8,7 @@ class AppTextTheme {
   // LIGHT Mode Text Theme
   static TextTheme lightTextTheme = TextTheme(
     headlineLarge: const TextStyle().copyWith(
-        fontSize: 32.0, fontWeight: FontWeight.bold, color: Colors.black),
+        fontSize: FontSizes.extraLargeFont, fontWeight: FontWeight.bold, color: Colors.black),
     headlineMedium: const TextStyle().copyWith(
         fontSize: 24.0, fontWeight: FontWeight.w600, color: Colors.black),
     headlineSmall: const TextStyle().copyWith(

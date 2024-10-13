@@ -1,6 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:onboarding/onboarding.dart';
+import 'package:go_router/go_router.dart';
+import 'package:introduction_screen/introduction_screen.dart';
+import '../../../constants/colors.dart';
+import '../../../routing/app_routes.dart';
+import 'onboarding_items.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -10,30 +13,72 @@ class OnboardingScreen extends StatefulWidget {
 }
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
+  // final _introKey = GlobalKey<IntroductionScreenState>();
+  // String _status = 'Waiting...';
+
+  final pages = onboardingItemsList
+      .map((onboardingBody) =>
+      PageViewModel(title: "", bodyWidget: onboardingBody))
+      .toList();
+
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
-      body: SizedBox(width: double.maxFinite,
-      child: Onboarding(
-        swipeableBody: [], //[List<Widget>] - List of swipeable widgets
-        startIndex: 0, //[int] - the starting index of the swipeable widgets
-        onPageChanges:(netDragDistance,pagesLength,currentIndex, slideDirection){
-          //1) [pagesLength] The drage distance from swipping
-          //2) [pagesLength] The length of the swipeable widgets
-          //3) [currentIndex] The currect index
-          //4) [slideDirection] The slide direction
-        },
-        buildHeader:(context, netDragDistance, pagesLength, currentIndex, setIndex, slideDirection){
-          //Use this to build a header in your onboarding that will display at all times. (Used to build routing buttons, indicators, etc)
-          //This is same as onPageChanges but with [setIndex] added to allow u to change the index from this header
-          return const Placeholder();
-        },
-        buildFooter:(context, netDragDistance, pagesLength, currentIndex, setIndex, slideDirection){
-          //Use this to build a footer in your onboarding that will display at all times. (Used to build routing buttons, indicators, etc)
-          return const Placeholder();
-        },
-        animationInMilliseconds: 500, //[int] - the speed of animations in ms
-      )
+    TextTheme textTheme = Theme.of(context).textTheme;
+
+    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    return Scaffold(
+      body: IntroductionScreen(
+        pages: pages,
+        done: Text(
+          "Done",
+          style: TextStyle(color: isDarkMode ? Colors.white : Colors.white),
+        ),
+        onDone: () => context.go(AppRoutes.login),
+        onSkip: () => context.go(AppRoutes.login),
+        skip: Text(
+          "Skip",
+          style: TextStyle(
+              color: isDarkMode ? Colors.white : Colors.white, fontSize: 15),
+        ),
+        showSkipButton: true,
+        showBackButton: false,
+        showNextButton: true,
+        next: Text("Next",
+            style: TextStyle(
+                color: isDarkMode ? Colors.white : Colors.white, fontSize: 15)),
+        back: const Icon(Icons.arrow_back),
+        dotsDecorator: DotsDecorator(
+          size: const Size.square(8.0),
+          activeSize: const Size(18.0, 8.0),
+          activeColor: AppColors.accentColor,
+          color:  isDarkMode ? Colors.grey : AppColors.deepBlack,
+          spacing: const EdgeInsets.symmetric(horizontal: 3.0),
+          activeShape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(25.0),
+          ),
+        ),
+        skipStyle: TextButton.styleFrom(
+            backgroundColor: AppColors.accentColor,
+            elevation: 5,
+            textStyle: textTheme.titleSmall,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(50.0),
+            )),
+        doneStyle: TextButton.styleFrom(
+            backgroundColor: AppColors.black,
+            elevation: 5,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(50.0),
+            ),
+            textStyle: textTheme.bodyMedium),
+        nextStyle: TextButton.styleFrom(
+          // foregroundColor: Colors.black,
+            backgroundColor: isDarkMode ? Colors.grey : AppColors.deepBlack,
+            elevation: 5,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(50.0),
+            ),
+            textStyle: textTheme.bodyMedium),
       ),
     );
   }
