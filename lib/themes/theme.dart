@@ -16,7 +16,7 @@ class AppTheme {
     primaryColor: Colors.green[900],
     scaffoldBackgroundColor: Colors.white,
     textTheme: AppTextTheme.lightTextTheme,
-    elevatedButtonTheme: ElevatedButtonThemes.lightElevatedButtonTheme,
+    // elevatedButtonTheme: ElevatedButtonThemes.lightElevatedButtonTheme,
     appBarTheme: AppbarTheme.lightAppBarTheme,
     iconButtonTheme: IconButtonThemes.lightModeIconButton,
   );

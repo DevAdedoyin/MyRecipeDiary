@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:myrecipediary/constants/colors.dart';
 import 'package:myrecipediary/constants/font_sizes.dart';
 
 class AppTextTheme {
@@ -28,7 +29,7 @@ class AppTextTheme {
     bodyMedium: const TextStyle().copyWith(
         fontSize: 17.5, fontWeight: FontWeight.w500, color: Colors.black),
     bodySmall: const TextStyle().copyWith(
-        fontSize: 15.5, fontWeight: FontWeight.w400, color: Colors.black),
+        fontSize: FontSizes.extraSmallFont, fontWeight: FontWeight.w400, color: Colors.black),
 
     // label theme
     labelLarge: const TextStyle().copyWith(
@@ -71,8 +72,16 @@ class AppTextTheme {
 
   // Miscellaneous Themes
   // Splash Screen Text Theme
-  static TextStyle splashScreenTextStyle = GoogleFonts.updock(
+  static TextStyle splashScreenTextStyle = GoogleFonts.londrinaSketch(
       fontWeight: FontWeight.w700,
       fontStyle: FontStyle.italic,
-      fontSize: FontSizes.mediumFont);
+      fontSize: FontSizes.mediumFont,
+      color: AppColors.secondaryColor
+  );
+
+  // Splash Screen Text Theme
+  static TextStyle metaTextTheme = GoogleFonts.montserrat(
+      fontWeight: FontWeight.w600,
+      color: AppColors.secondaryColor,
+      fontSize: FontSizes.extraSmallFont);
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myrecipediary/constants/gaps.dart';
 import '../constants/colors.dart';
 
 class ElevatedButtonThemes {
@@ -8,12 +9,8 @@ class ElevatedButtonThemes {
   static final lightElevatedButtonTheme = ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
       elevation: 0,
-      foregroundColor: Colors.white,
-      backgroundColor: AppColors.primaryColor,
-      disabledForegroundColor: Colors.grey,
-      disabledBackgroundColor: Colors.grey,
-      side: const BorderSide(color: AppColors.primaryColor),
-      padding: const EdgeInsets.symmetric(vertical: 10),
+      backgroundColor: AppColors.secondaryColor,
+      padding:  EdgeInsets.symmetric(vertical: Gaps.smallGap),
       textStyle: const TextStyle(
           fontSize: 16, color: Colors.white, fontWeight: FontWeight.w600),
       shape: RoundedRectangleBorder(

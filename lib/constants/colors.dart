@@ -4,6 +4,9 @@ class AppColors {
   // LIGHT THEME
   static const primaryColor = Color.fromRGBO(240, 248, 255, 1.0);
   static const secondaryColor = Colors.deepOrange;
+  static  Color lightGreyColor = Colors.grey.shade100;
+  static  Color midGreyColor = Colors.grey.shade500;
+  static  Color darkGreyColor = Colors.grey.shade900;
   static const accentColor = Colors.red;
   static const fontColor = Color.fromRGBO(40, 40, 43, 1.0);
   static final inputFieldBG = Colors.grey.withOpacity(0.1);
