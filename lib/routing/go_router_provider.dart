@@ -1,6 +1,7 @@
 import 'package:go_router/go_router.dart';
 import 'package:myrecipediary/routing/route_error_screen.dart';
 import '../features/authentication/presentation/login.dart';
+import '../features/authentication/presentation/register.dart';
 import '../features/onboarding/onboarding_screen/onboarding_screen.dart';
 import '../features/onboarding/splash_screen.dart';
 import 'app_routes.dart';
@@ -20,10 +21,10 @@ GoRouter goRouter = GoRouter(
       path: AppRoutes.login,
       builder: (context, state) => const LoginScreen(),
     ),
-    // GoRoute(
-    //   path: AppRoutes.register,
-    //   builder: (context, state) => const RegisterScreen(),
-    // ),
+    GoRoute(
+      path: AppRoutes.register,
+      builder: (context, state) => const RegisterScreen(),
+    ),
     // GoRoute(
     //   path: AppRoutes.dashboard,
     //   builder: (context, state) => const Dashboard(),

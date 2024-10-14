@@ -10,14 +10,14 @@ import 'package:myrecipediary/themes/text_theme.dart';
 import '../../../common/elevated_button.dart';
 import '../../../constants/gaps.dart';
 
-class LoginForm extends StatefulWidget {
-  const LoginForm({super.key});
+class RegisterForm extends StatefulWidget {
+  const RegisterForm({super.key});
 
   @override
-  State<LoginForm> createState() => _LoginFormState();
+  State<RegisterForm> createState() => _RegisterFormState();
 }
 
-class _LoginFormState extends State<LoginForm> {
+class _RegisterFormState extends State<RegisterForm> {
   final _formKey = GlobalKey<FormState>();
 
   final _emailController = TextEditingController();
@@ -25,12 +25,8 @@ class _LoginFormState extends State<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery
-        .of(context)
-        .size;
-    TextTheme textTheme = Theme
-        .of(context)
-        .textTheme;
+    Size size = MediaQuery.of(context).size;
+    TextTheme textTheme = Theme.of(context).textTheme;
     return Form(
       key: _formKey,
       child: Column(
@@ -40,8 +36,7 @@ class _LoginFormState extends State<LoginForm> {
               prefixIcon: const Icon(FontAwesomeIcons.envelope),
               controller: _emailController,
               textInputType: TextInputType.emailAddress,
-              hint: "Email address"
-          ),
+              hint: "Email address"),
           verticalGap(Gaps.bigMediumGap),
           TextFormField_.textFormField(
               controller: _passwordController,
@@ -50,16 +45,14 @@ class _LoginFormState extends State<LoginForm> {
               textInputType: TextInputType.visiblePassword,
               hint: "Password"),
           verticalGap(Gaps.bigMediumGap),
-          SizedBox(
-            width: size.width,
-            child: Text(
-              "Forgot Password?",
-              style: AppTextTheme.metaTextTheme,
-              textAlign: TextAlign.end,
-            ),
-          ),
+          TextFormField_.textFormField(
+              controller: _passwordController,
+              prefixIcon: const Icon(FontAwesomeIcons.lock),
+              suffixIcon: const Icon(FontAwesomeIcons.eye),
+              textInputType: TextInputType.visiblePassword,
+              hint: "Confirm password"),
           verticalGap(Gaps.bigMediumGap),
-          elevatedButton(text: "Login", onPressed: () {}, width: size.width),
+          elevatedButton(text: "Register", onPressed: () {}, width: size.width),
           verticalGap(Gaps.bigMediumGap),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -74,7 +67,7 @@ class _LoginFormState extends State<LoginForm> {
           ),
           verticalGap(Gaps.bigMediumGap),
           googleElevatedButton(
-              onPressed: () {}, text: "Login with Google", width: size.width),
+              onPressed: () {}, text: "Register with Google", width: size.width),
         ],
       ),
     );

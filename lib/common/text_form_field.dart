@@ -8,6 +8,7 @@ class TextFormField_ {
     suffixIcon,
     controller,
     textInputType,
+    hint,
   }) =>
       TextFormField(
         maxLines: 1,
@@ -15,7 +16,7 @@ class TextFormField_ {
         keyboardType: textInputType,
 
         decoration: InputDecoration(
-
+              hintText: hint,
             contentPadding:  EdgeInsets.symmetric(vertical: Gaps.smallGap, horizontal: Gaps.bigMediumGap),
             border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(7),
