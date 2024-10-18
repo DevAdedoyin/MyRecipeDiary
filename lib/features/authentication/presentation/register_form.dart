@@ -6,9 +6,11 @@ import 'package:myrecipediary/common/gaps.dart';
 import 'package:myrecipediary/common/text_form_field.dart';
 import 'package:myrecipediary/constants/colors.dart';
 import 'package:myrecipediary/themes/text_theme.dart';
+import 'package:myrecipediary/utils/validators/password_validators.dart';
 
 import '../../../common/elevated_button.dart';
 import '../../../constants/gaps.dart';
+import '../../../utils/validators/email_validators.dart';
 
 class RegisterForm extends StatefulWidget {
   const RegisterForm({super.key});
@@ -22,6 +24,7 @@ class _RegisterFormState extends State<RegisterForm> {
 
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -36,24 +39,46 @@ class _RegisterFormState extends State<RegisterForm> {
               prefixIcon: const Icon(FontAwesomeIcons.envelope),
               controller: _emailController,
               textInputType: TextInputType.emailAddress,
-              hint: "Email address"),
-          verticalGap(Gaps.bigMediumGap),
+              hint: "Email address",
+              validator: (email) =>
+                  EmailInputValidator.validateEmail(email: email)),
+          verticalGap(Gaps.mediumGap),
           TextFormField_.textFormField(
               controller: _passwordController,
               prefixIcon: const Icon(FontAwesomeIcons.lock),
               suffixIcon: const Icon(FontAwesomeIcons.eye),
               textInputType: TextInputType.visiblePassword,
-              hint: "Password"),
-          verticalGap(Gaps.bigMediumGap),
+              hint: "Password",
+              validator: (password) =>
+                  PasswordValidators.validatePassword(password: password)),
+          verticalGap(Gaps.mediumGap),
           TextFormField_.textFormField(
-              controller: _passwordController,
+              controller: _confirmPasswordController,
               prefixIcon: const Icon(FontAwesomeIcons.lock),
               suffixIcon: const Icon(FontAwesomeIcons.eye),
               textInputType: TextInputType.visiblePassword,
-              hint: "Confirm password"),
-          verticalGap(Gaps.bigMediumGap),
-          elevatedButton(text: "Register", onPressed: () {}, width: size.width),
-          verticalGap(Gaps.bigMediumGap),
+              hint: "Confirm password",
+              validator: (confirmPassword) =>
+                  PasswordValidators.validateConfirmPassword(
+                      password: _passwordController.text,
+                      confirmPassword: confirmPassword)),
+          verticalGap(Gaps.mediumGap),
+          elevatedButton(
+              text: "Register",
+              onPressed: () {
+                if (!_formKey.currentState!.validate()) {
+                  // ref.read(isAuthLoading.notifier).state = true;
+                  // await FireAuth.signInUsingEmailPassword(
+                  //   context: context,
+                  //   email: _emailController.text,
+                  //   password: _passwordController.text,
+                  // );
+                  // ref.read(isAuthLoading.notifier).state =
+                  // false;
+                }
+              },
+              width: size.width),
+          verticalGap(Gaps.mediumGap),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -65,9 +90,11 @@ class _RegisterFormState extends State<RegisterForm> {
               Expanded(child: divider()),
             ],
           ),
-          verticalGap(Gaps.bigMediumGap),
+          verticalGap(Gaps.mediumGap),
           googleElevatedButton(
-              onPressed: () {}, text: "Register with Google", width: size.width),
+              onPressed: () {},
+              text: "Register with Google",
+              width: size.width),
         ],
       ),
     );

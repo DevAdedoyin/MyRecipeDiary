@@ -9,12 +9,13 @@ class TextFormField_ {
     controller,
     textInputType,
     hint,
+    validator,
   }) =>
       TextFormField(
         maxLines: 1,
         controller: controller,
         keyboardType: textInputType,
-
+        validator: validator,
         decoration: InputDecoration(
               hintText: hint,
             contentPadding:  EdgeInsets.symmetric(vertical: Gaps.smallGap, horizontal: Gaps.bigMediumGap),

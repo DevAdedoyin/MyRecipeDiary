@@ -7,6 +7,7 @@ import 'package:myrecipediary/common/gaps.dart';
 import 'package:myrecipediary/constants/gaps.dart';
 import 'package:myrecipediary/features/authentication/presentation/login_form.dart';
 import 'package:myrecipediary/themes/text_theme.dart';
+import 'package:myrecipediary/utils/validators/email_validators.dart';
 
 import '../../../common/elevated_button.dart';
 import '../../../common/text_form_field.dart';
@@ -30,11 +31,12 @@ class _ForgotPasswordState extends State<ForgotPasswordScreen> {
     TextTheme textTheme = Theme.of(context).textTheme;
     return Scaffold(
       body: SingleChildScrollView(
-        child: SizedBox(
-          height: size.height,
-          child: Padding(
-            padding: EdgeInsets.all(Gaps.mediumGap),
-            child: Form(
+        child: Form(
+          key: _formKey,
+          child: SizedBox(
+            height: size.height,
+            child: Padding(
+              padding: EdgeInsets.all(Gaps.mediumGap),
               child: Column(
                 children: [
                   Expanded(
@@ -59,15 +61,30 @@ class _ForgotPasswordState extends State<ForgotPasswordScreen> {
                         Container(
                           // color: Colors.red,
                           child: TextFormField_.textFormField(
-                              prefixIcon: const Icon(FontAwesomeIcons.envelope),
+                              prefixIcon:
+                                  const Icon(FontAwesomeIcons.envelope),
                               controller: _emailController,
                               textInputType: TextInputType.emailAddress,
-                              hint: "Email address"),
+                              hint: "Email address",
+                              validator: (email) =>
+                                  EmailInputValidator.validateEmail(
+                                      email: email)),
                         ),
                         verticalGap(Gaps.mediumGap),
                         elevatedButton(
                             text: "Request password reset",
-                            onPressed: () {},
+                            onPressed: () {
+                              if (!_formKey.currentState!.validate()) {
+                                // ref.read(isAuthLoading.notifier).state = true;
+                                // await FireAuth.signInUsingEmailPassword(
+                                //   context: context,
+                                //   email: _emailController.text,
+                                //   password: _passwordController.text,
+                                // );
+                                // ref.read(isAuthLoading.notifier).state =
+                                // false;
+                              }
+                            },
                             width: size.width),
                       ],
                     ),

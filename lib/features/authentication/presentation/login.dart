@@ -42,7 +42,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 Expanded(
-                  flex: 6,
+                  flex: 7,
                   child: Container(
                     // color: Colors.red,
                     child: const LoginForm(),

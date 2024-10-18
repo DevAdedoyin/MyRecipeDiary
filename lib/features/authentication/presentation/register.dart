@@ -48,26 +48,24 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                 ),
                 Expanded(
-                  flex: 7,
+                  flex: 9,
                   child: Container(
                     // color: Colors.red,
                     child: const RegisterForm(),
                   ),
                 ),
-                Expanded(
-                    flex: 1,
-                    child: Container(
-                      alignment: Alignment.bottomCenter,
-                        child: RichText(
-                          text: TextSpan(children: [
-                            TextSpan(text: "Already Registered & Verified? ",
-                                style: textTheme.bodySmall),
-                            TextSpan(text: "Login",
-                                style: AppTextTheme.metaTextTheme,
-                                recognizer: TapGestureRecognizer()
-                                  ..onTap = () => context.push(AppRoutes.login))
-                          ]),
-                        )))
+                Container(
+                  alignment: Alignment.bottomCenter,
+                    child: RichText(
+                      text: TextSpan(children: [
+                        TextSpan(text: "Already Registered & Verified? ",
+                            style: textTheme.bodySmall),
+                        TextSpan(text: "Login",
+                            style: AppTextTheme.metaTextTheme,
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () => context.push(AppRoutes.login))
+                      ]),
+                    ))
               ],
             ),
           ),

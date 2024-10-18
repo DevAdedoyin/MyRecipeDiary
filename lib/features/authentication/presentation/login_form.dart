@@ -8,6 +8,7 @@ import 'package:myrecipediary/common/text_form_field.dart';
 import 'package:myrecipediary/constants/colors.dart';
 import 'package:myrecipediary/routing/app_routes.dart';
 import 'package:myrecipediary/themes/text_theme.dart';
+import 'package:myrecipediary/utils/validators/email_validators.dart';
 
 import '../../../common/elevated_button.dart';
 import '../../../constants/gaps.dart';
@@ -38,14 +39,16 @@ class _LoginFormState extends State<LoginForm> {
               prefixIcon: const Icon(FontAwesomeIcons.envelope),
               controller: _emailController,
               textInputType: TextInputType.emailAddress,
-              hint: "Email address"),
+              hint: "Email address",
+              validator: (email) => EmailInputValidator.validateEmail(email: email)),
           verticalGap(Gaps.bigMediumGap),
           TextFormField_.textFormField(
-              controller: _passwordController,
-              prefixIcon: const Icon(FontAwesomeIcons.lock),
-              suffixIcon: const Icon(FontAwesomeIcons.eye),
-              textInputType: TextInputType.visiblePassword,
-              hint: "Password"),
+            controller: _passwordController,
+            prefixIcon: const Icon(FontAwesomeIcons.lock),
+            suffixIcon: const Icon(FontAwesomeIcons.eye),
+            textInputType: TextInputType.visiblePassword,
+            hint: "Password",
+          ),
           verticalGap(Gaps.bigMediumGap),
           GestureDetector(
             onTap: () => context.push(AppRoutes.forgotPassword),
@@ -59,7 +62,21 @@ class _LoginFormState extends State<LoginForm> {
             ),
           ),
           verticalGap(Gaps.bigMediumGap),
-          elevatedButton(text: "Login", onPressed: () {}, width: size.width),
+          elevatedButton(
+              text: "Login",
+              onPressed: () {
+                if (!_formKey.currentState!.validate()) {
+                  // ref.read(isAuthLoading.notifier).state = true;
+                  // await FireAuth.signInUsingEmailPassword(
+                  //   context: context,
+                  //   email: _emailController.text,
+                  //   password: _passwordController.text,
+                  // );
+                  // ref.read(isAuthLoading.notifier).state =
+                  // false;
+                }
+              },
+              width: size.width),
           verticalGap(Gaps.bigMediumGap),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
