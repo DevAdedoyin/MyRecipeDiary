@@ -17,12 +17,8 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery
-        .of(context)
-        .size;
-    TextTheme textTheme = Theme
-        .of(context)
-        .textTheme;
+    Size size = MediaQuery.of(context).size;
+    TextTheme textTheme = Theme.of(context).textTheme;
     return Scaffold(
       body: SingleChildScrollView(
         child: SizedBox(
@@ -32,7 +28,7 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Column(
               children: [
                 Expanded(
-                  flex: 4,
+                  flex: 3,
                   child: SizedBox(
                     child: Image.asset("assets/images/login.jpg"),
                   ),
@@ -55,15 +51,19 @@ class _LoginScreenState extends State<LoginScreen> {
                 Expanded(
                     flex: 1,
                     child: Container(
+                        alignment: Alignment.bottomCenter,
                         child: RichText(
                           text: TextSpan(children: [
-                              TextSpan(text: "New to My Recipe Diary? ",
-                              style: textTheme.bodySmall),
-                          TextSpan(text: "Register",
-                              style: AppTextTheme.metaTextTheme,
-                              recognizer: TapGestureRecognizer()
-                                ..onTap = () => context.push(AppRoutes.register))
-                              ]),
+                            TextSpan(
+                                text: "New to My Recipe Diary? ",
+                                style: textTheme.bodySmall),
+                            TextSpan(
+                                text: "Register",
+                                style: AppTextTheme.metaTextTheme,
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap =
+                                      () => context.push(AppRoutes.register))
+                          ]),
                         )))
               ],
             ),

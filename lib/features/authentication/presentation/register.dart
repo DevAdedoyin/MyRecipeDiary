@@ -34,7 +34,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             child: Column(
               children: [
                 Expanded(
-                  flex: 4,
+                  flex: 3,
                   child: SizedBox(
                     child: Image.asset("assets/images/register.jpg"),
                   ),
@@ -57,6 +57,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 Expanded(
                     flex: 1,
                     child: Container(
+                      alignment: Alignment.bottomCenter,
                         child: RichText(
                           text: TextSpan(children: [
                             TextSpan(text: "Already Registered & Verified? ",
