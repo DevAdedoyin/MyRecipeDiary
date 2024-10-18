@@ -66,6 +66,7 @@ class _ForgotPasswordState extends State<ForgotPasswordScreen> {
                               controller: _emailController,
                               textInputType: TextInputType.emailAddress,
                               hint: "Email address",
+                              isObscured: false,
                               validator: (email) =>
                                   EmailInputValidator.validateEmail(
                                       email: email)),

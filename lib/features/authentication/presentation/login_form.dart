@@ -6,21 +6,22 @@ import 'package:myrecipediary/common/dividers.dart';
 import 'package:myrecipediary/common/gaps.dart';
 import 'package:myrecipediary/common/text_form_field.dart';
 import 'package:myrecipediary/constants/colors.dart';
+import 'package:myrecipediary/features/authentication/repository/password_visibility_repo.dart';
 import 'package:myrecipediary/routing/app_routes.dart';
 import 'package:myrecipediary/themes/text_theme.dart';
 import 'package:myrecipediary/utils/validators/email_validators.dart';
-
+import "package:flutter_riverpod/flutter_riverpod.dart";
 import '../../../common/elevated_button.dart';
 import '../../../constants/gaps.dart';
 
-class LoginForm extends StatefulWidget {
+class LoginForm extends ConsumerStatefulWidget {
   const LoginForm({super.key});
 
   @override
-  State<LoginForm> createState() => _LoginFormState();
+  ConsumerState<LoginForm> createState() => _LoginFormState();
 }
 
-class _LoginFormState extends State<LoginForm> {
+class _LoginFormState extends ConsumerState<LoginForm> {
   final _formKey = GlobalKey<FormState>();
 
   final _emailController = TextEditingController();
@@ -30,6 +31,7 @@ class _LoginFormState extends State<LoginForm> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     TextTheme textTheme = Theme.of(context).textTheme;
+    final isPasswordVisible = ref.watch(isLoginPasswordVisible);
     return Form(
       key: _formKey,
       child: Column(
@@ -40,15 +42,26 @@ class _LoginFormState extends State<LoginForm> {
               controller: _emailController,
               textInputType: TextInputType.emailAddress,
               hint: "Email address",
-              validator: (email) => EmailInputValidator.validateEmail(email: email)),
+              validator: (email) =>
+                  EmailInputValidator.validateEmail(email: email),
+              isObscured: false),
           verticalGap(Gaps.bigMediumGap),
           TextFormField_.textFormField(
-            controller: _passwordController,
-            prefixIcon: const Icon(FontAwesomeIcons.lock),
-            suffixIcon: const Icon(FontAwesomeIcons.eye),
-            textInputType: TextInputType.visiblePassword,
-            hint: "Password",
-          ),
+              controller: _passwordController,
+              prefixIcon: const Icon(FontAwesomeIcons.lock),
+              suffixIcon: GestureDetector(
+                  onTap: () {
+                    ref.read(isLoginPasswordVisible.notifier).state =
+                        ref.read(isLoginPasswordVisible.notifier).state
+                            ? false
+                            : true;
+                  },
+                  child: Icon(isPasswordVisible
+                      ? FontAwesomeIcons.eye
+                      : FontAwesomeIcons.eyeSlash)),
+              textInputType: TextInputType.visiblePassword,
+              hint: "Password",
+              isObscured: isPasswordVisible),
           verticalGap(Gaps.bigMediumGap),
           GestureDetector(
             onTap: () => context.push(AppRoutes.forgotPassword),

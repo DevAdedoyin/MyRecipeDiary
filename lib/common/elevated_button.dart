@@ -22,7 +22,7 @@ Widget elevatedButton(
         ),
         child: Text(
           text,
-          style: TextStyle(color: Colors.white, fontSize: FontSizes.smallFont),
+          style: const TextStyle(color: Colors.white, fontSize: FontSizes.smallFont),
         ),
       ),
     );
