@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "382856269132",
+    "project_id": "myrecipediary-7365a",
+    "storage_bucket": "myrecipediary-7365a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:382856269132:android:7695e1da51531bf7f253e9",
+        "android_client_info": {
+          "package_name": "com.example.myrecipediary"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCsD52A6HEpXrzGtsinvw18qJUkro5wGEU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:382856269132:android:2c334257f55b398bf253e9",
+        "android_client_info": {
+          "package_name": "com.pauversildo.myrecipediary"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCsD52A6HEpXrzGtsinvw18qJUkro5wGEU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
