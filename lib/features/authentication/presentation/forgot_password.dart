@@ -1,26 +1,30 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:myrecipediary/common/gaps.dart';
 import 'package:myrecipediary/constants/gaps.dart';
+import 'package:myrecipediary/features/authentication/data/auth_source/forgot_password.dart';
 import 'package:myrecipediary/features/authentication/presentation/login_form.dart';
 import 'package:myrecipediary/themes/text_theme.dart';
 import 'package:myrecipediary/utils/validators/email_validators.dart';
 
 import '../../../common/elevated_button.dart';
+import '../../../common/loading_button.dart';
 import '../../../common/text_form_field.dart';
 import '../../../routing/app_routes.dart';
+import '../data/repositories/auth_loading_repo.dart';
 
-class ForgotPasswordScreen extends StatefulWidget {
+class ForgotPasswordScreen extends ConsumerStatefulWidget {
   const ForgotPasswordScreen({super.key});
 
   @override
-  State<ForgotPasswordScreen> createState() => _ForgotPasswordState();
+  ConsumerState<ForgotPasswordScreen> createState() => _ForgotPasswordState();
 }
 
-class _ForgotPasswordState extends State<ForgotPasswordScreen> {
+class _ForgotPasswordState extends ConsumerState<ForgotPasswordScreen> {
   final _formKey = GlobalKey<FormState>();
 
   final _emailController = TextEditingController();
@@ -29,6 +33,7 @@ class _ForgotPasswordState extends State<ForgotPasswordScreen> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     TextTheme textTheme = Theme.of(context).textTheme;
+    final isPasswordUpdateRequest_ = ref.watch(isPasswordUpdateRequest);
     return Scaffold(
       body: SingleChildScrollView(
         child: Form(
@@ -72,18 +77,19 @@ class _ForgotPasswordState extends State<ForgotPasswordScreen> {
                                       email: email)),
                         ),
                         verticalGap(Gaps.mediumGap),
-                        elevatedButton(
+                        isPasswordUpdateRequest_
+                            ? loadingButton(
+                            onPressed: () {}, text: "Requesting password reset", width: size.width)
+                            : elevatedButton(
                             text: "Request password reset",
                             onPressed: () {
                               if (!_formKey.currentState!.validate()) {
-                                // ref.read(isAuthLoading.notifier).state = true;
-                                // await FireAuth.signInUsingEmailPassword(
-                                //   context: context,
-                                //   email: _emailController.text,
-                                //   password: _passwordController.text,
-                                // );
-                                // ref.read(isAuthLoading.notifier).state =
-                                // false;
+                                ref.read(isPasswordUpdateRequest.notifier).state = true;
+                                 ForgotPassword.forgotPassword(
+                                  email: _emailController.text,
+                                );
+                                ref.read(isPasswordUpdateRequest.notifier).state =
+                                false;
                               }
                             },
                             width: size.width),

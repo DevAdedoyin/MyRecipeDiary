@@ -23,4 +23,6 @@ class AppColors {
   static const black = Color.fromRGBO(40, 40, 43, 1.0);
   static const deepBlack = Colors.black;
   static final infoBlue = Colors.blue[900];
+  static final successGreen = Colors.green[900];
+  static final failureRed = Colors.red[900];
 }

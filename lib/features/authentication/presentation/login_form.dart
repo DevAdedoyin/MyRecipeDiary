@@ -48,7 +48,8 @@ class _LoginFormState extends ConsumerState<LoginForm> {
               hint: "Email address",
               validator: (email) =>
                   EmailInputValidator.validateEmail(email: email),
-              isObscured: false),
+              isObscured: false,
+              textInputAction: TextInputAction.next),
           verticalGap(Gaps.bigMediumGap),
           TextFormField_.textFormField(
               controller: _passwordController,
@@ -65,7 +66,8 @@ class _LoginFormState extends ConsumerState<LoginForm> {
                       : FontAwesomeIcons.eyeSlash)),
               textInputType: TextInputType.visiblePassword,
               hint: "Password",
-              isObscured: isPasswordVisible),
+              isObscured: isPasswordVisible,
+              textInputAction: TextInputAction.done),
           verticalGap(Gaps.bigMediumGap),
           GestureDetector(
             onTap: () => context.push(AppRoutes.forgotPassword),
@@ -79,22 +81,24 @@ class _LoginFormState extends ConsumerState<LoginForm> {
             ),
           ),
           verticalGap(Gaps.bigMediumGap),
-          !isLoginIn_
+          isLoginIn_
               ? loadingButton(
-              onPressed: () {}, text: "Login in progress", width: size.width)
-              :  elevatedButton(
-              text: "Login",
-              onPressed: () {
-                if (!_formKey.currentState!.validate()) {
-                  ref.read(isLoginIn.notifier).state = true;
-                  LoginAuth.loginUsingEmailPassword(
-                    email: _emailController.text,
-                    password: _passwordController.text,
-                  );
-                  ref.read(isRegistering.notifier).state = false;
-                }
-              },
-              width: size.width),
+                  onPressed: () {},
+                  text: "Login in progress",
+                  width: size.width)
+              : elevatedButton(
+                  text: "Login",
+                  onPressed: () {
+                    if (!_formKey.currentState!.validate()) {
+                      ref.read(isLoginIn.notifier).state = true;
+                      LoginAuth.loginUsingEmailPassword(
+                        email: _emailController.text,
+                        password: _passwordController.text,
+                      );
+                      ref.read(isRegistering.notifier).state = false;
+                    }
+                  },
+                  width: size.width),
           verticalGap(Gaps.bigMediumGap),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,

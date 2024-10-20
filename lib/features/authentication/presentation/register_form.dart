@@ -50,7 +50,8 @@ class _RegisterFormState extends ConsumerState<RegisterForm> {
               hint: "Email address",
               isObscured: false,
               validator: (email) =>
-                  EmailInputValidator.validateEmail(email: email)),
+                  EmailInputValidator.validateEmail(email: email),
+              textInputAction: TextInputAction.next),
           verticalGap(Gaps.mediumGap),
           TextFormField_.textFormField(
               controller: _passwordController,
@@ -69,7 +70,8 @@ class _RegisterFormState extends ConsumerState<RegisterForm> {
               isObscured: isPasswordVisible,
               hint: "Password",
               validator: (password) =>
-                  PasswordValidators.validatePassword(password: password)),
+                  PasswordValidators.validatePassword(password: password),
+              textInputAction: TextInputAction.next),
           verticalGap(Gaps.mediumGap),
           TextFormField_.textFormField(
               controller: _confirmPasswordController,
@@ -90,17 +92,20 @@ class _RegisterFormState extends ConsumerState<RegisterForm> {
               validator: (confirmPassword) =>
                   PasswordValidators.validateConfirmPassword(
                       password: _passwordController.text,
-                      confirmPassword: confirmPassword)),
+                      confirmPassword: confirmPassword),
+              textInputAction: TextInputAction.done),
           verticalGap(Gaps.mediumGap),
-          !isRegistering_
+          isRegistering_ == true
               ? loadingButton(
-                  onPressed: () {}, text: "Registration in progress", width: size.width)
+                  onPressed: () {},
+                  text: "Registration in progress",
+                  width: size.width)
               : elevatedButton(
                   text: "Register",
-                  onPressed: () {
-                    if (!_formKey.currentState!.validate()) {
+                  onPressed: () async {
+                    if (_formKey.currentState!.validate()) {
                       ref.read(isRegistering.notifier).state = true;
-                      RegisterAuth.registerUsingEmailPassword(
+                      await RegisterAuth.registerUsingEmailPassword(
                         email: _emailController.text,
                         password: _passwordController.text,
                       );

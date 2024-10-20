@@ -10,7 +10,8 @@ class TextFormField_ {
     textInputType,
     hint,
     validator,
-    isObscured
+    isObscured,
+    textInputAction
   }) =>
       TextFormField(
         maxLines: 1,
@@ -18,6 +19,7 @@ class TextFormField_ {
         keyboardType: textInputType,
         validator: validator,
           obscureText: isObscured,
+        textInputAction: textInputAction,
         decoration: InputDecoration(
               hintText: hint,
             contentPadding:  EdgeInsets.symmetric(vertical: Gaps.smallGap, horizontal: Gaps.bigMediumGap),

@@ -12,7 +12,12 @@
           "package_name": "com.example.myrecipediary"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "382856269132-9ajjubfcpsobimjquj3tuj2cgclg6lfb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyCsD52A6HEpXrzGtsinvw18qJUkro5wGEU"
@@ -20,7 +25,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "382856269132-9ajjubfcpsobimjquj3tuj2cgclg6lfb.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "382856269132-v6hsu7f92rkv0et8bsmmh5p0mquic81d.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.myrecipediary"
+              }
+            }
+          ]
         }
       }
     },
@@ -31,7 +48,12 @@
           "package_name": "com.pauversildo.myrecipediary"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "382856269132-9ajjubfcpsobimjquj3tuj2cgclg6lfb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyCsD52A6HEpXrzGtsinvw18qJUkro5wGEU"
@@ -39,7 +61,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "382856269132-9ajjubfcpsobimjquj3tuj2cgclg6lfb.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "382856269132-v6hsu7f92rkv0et8bsmmh5p0mquic81d.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.myrecipediary"
+              }
+            }
+          ]
         }
       }
     }
