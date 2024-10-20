@@ -9,7 +9,7 @@ class AppProgressIndicator {
         height: height,
         child: const CircularProgressIndicator(
           color: Colors.white,
-          strokeWidth: 2,
+          strokeWidth: 4,
         ),
       );
 }

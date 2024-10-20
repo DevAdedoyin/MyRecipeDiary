@@ -26,8 +26,8 @@ Widget loadingButton(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             AppProgressIndicator.circularProgressIndicator(
-              width: 20.0,
-              height: 20.0,
+              width: 15.0,
+              height: 15.0,
             ),
             horizontalGap(Gaps.smallGap),
             Text(

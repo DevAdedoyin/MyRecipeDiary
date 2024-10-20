@@ -4,6 +4,7 @@ import 'package:myrecipediary/constants/auth_text_constants.dart';
 import 'package:get/get.dart';
 
 import '../../../../routing/app_routes.dart';
+import '../../../../routing/go_router_provider.dart';
 
 class RegisterAuth {
   static Future<User?> registerUsingEmailPassword({
@@ -26,7 +27,7 @@ class RegisterAuth {
           title: "REGISTRATION SUCCESSFUL",
           message: AuthTextConstants.successfulRegistrationMessage);
 
-      Future.delayed(const Duration(seconds: 4), () => Get.to(AppRoutes.login));
+      Future.delayed(const Duration(seconds: 4), () => goRouter.go(AppRoutes.login));
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         AppAlertDialog.failedAlert(

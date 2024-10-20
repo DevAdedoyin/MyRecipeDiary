@@ -16,6 +16,16 @@ class PasswordValidators {
     return null;
   }
 
+  static String? validateLoginPassword({required String? password}) {
+    if (password == null) {
+      return null;
+    }
+    if (password.isEmpty) {
+      return 'Password can\'t be empty';
+    }
+    return null;
+  }
+
   static String? validateConfirmPassword(
       {required String? password, required String? confirmPassword}) {
     if (password == null) {

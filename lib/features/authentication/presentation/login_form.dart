@@ -15,6 +15,7 @@ import "package:flutter_riverpod/flutter_riverpod.dart";
 import '../../../common/elevated_button.dart';
 import '../../../common/loading_button.dart';
 import '../../../constants/gaps.dart';
+import '../../../utils/validators/password_validators.dart';
 import '../data/repositories/auth_loading_repo.dart';
 
 class LoginForm extends ConsumerStatefulWidget {
@@ -36,6 +37,7 @@ class _LoginFormState extends ConsumerState<LoginForm> {
     TextTheme textTheme = Theme.of(context).textTheme;
     final isPasswordVisible = ref.watch(isLoginPasswordVisible);
     final isLoginIn_ = ref.watch(isLoginIn);
+
     return Form(
       key: _formKey,
       child: Column(
@@ -67,6 +69,10 @@ class _LoginFormState extends ConsumerState<LoginForm> {
               textInputType: TextInputType.visiblePassword,
               hint: "Password",
               isObscured: isPasswordVisible,
+              validator: (password) =>
+                  PasswordValidators.validateLoginPassword(
+                      password: _passwordController.text,
+                      ),
               textInputAction: TextInputAction.done),
           verticalGap(Gaps.bigMediumGap),
           GestureDetector(
@@ -88,14 +94,14 @@ class _LoginFormState extends ConsumerState<LoginForm> {
                   width: size.width)
               : elevatedButton(
                   text: "Login",
-                  onPressed: () {
-                    if (!_formKey.currentState!.validate()) {
+                  onPressed: () async {
+                    if (_formKey.currentState!.validate()) {
                       ref.read(isLoginIn.notifier).state = true;
-                      LoginAuth.loginUsingEmailPassword(
+                      await LoginAuth.loginUsingEmailPassword(
                         email: _emailController.text,
                         password: _passwordController.text,
                       );
-                      ref.read(isRegistering.notifier).state = false;
+                      ref.read(isLoginIn.notifier).state = false;
                     }
                   },
                   width: size.width),

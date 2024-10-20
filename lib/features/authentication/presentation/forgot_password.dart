@@ -83,7 +83,7 @@ class _ForgotPasswordState extends ConsumerState<ForgotPasswordScreen> {
                             : elevatedButton(
                             text: "Request password reset",
                             onPressed: () {
-                              if (!_formKey.currentState!.validate()) {
+                              if (_formKey.currentState!.validate()) {
                                 ref.read(isPasswordUpdateRequest.notifier).state = true;
                                  ForgotPassword.forgotPassword(
                                   email: _emailController.text,

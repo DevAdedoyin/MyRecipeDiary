@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:myrecipediary/common/app_alert_dialog.dart';
 import 'package:myrecipediary/constants/auth_text_constants.dart';
+import 'package:myrecipediary/routing/go_router_provider.dart';
 
 import '../../../../routing/app_routes.dart';
 
@@ -32,7 +33,7 @@ class LoginAuth {
           title: "LOGIN SUCCESSFUL",
           message: AuthTextConstants.successfulLoginMessage);
       Future.delayed(
-          const Duration(seconds: 4), () => Get.to(AppRoutes.dashboard));
+          const Duration(seconds: 4), () => goRouter.push(AppRoutes.dashboard));
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         AppAlertDialog.infoAlert(
@@ -44,9 +45,11 @@ class LoginAuth {
             message: AuthTextConstants.incorrectPasswordMessage);
       } else {
         AppAlertDialog.failedAlert(
-            title: "WRONG PASSWORD",
-            message: AuthTextConstants.incorrectPasswordMessage);
+            title: "INCORRECT LOGIN DETAILS",
+            message: AuthTextConstants.incorrectLoginDetails);
       }
+    } catch (e) {
+      // print(e);
     }
 
     return user;

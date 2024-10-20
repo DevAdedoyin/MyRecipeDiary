@@ -48,6 +48,15 @@ You're now logged in and ready to explore and manage your recipes.
 Happy cooking!
   """;
 
+  // LOGIN: INCORRECT LOGIN DETAILS
+  static String incorrectLoginDetails = """
+The email or password you entered is incorrect.
+
+Please double check your information and try again. 
+
+If you’ve forgotten your password, click on forgot password to reset your password.
+  """;
+
   // LOGIN: USER NOT FOUND MESSAGE
   static String userNotFoundMessage = """
 We couldn't find an account with the email or username you entered.
