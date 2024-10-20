@@ -101,7 +101,9 @@ class _LoginFormState extends ConsumerState<LoginForm> {
                         email: _emailController.text,
                         password: _passwordController.text,
                       );
+                      _passwordController.clear();
                       ref.read(isLoginIn.notifier).state = false;
+
                     }
                   },
                   width: size.width),

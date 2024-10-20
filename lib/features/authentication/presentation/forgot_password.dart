@@ -66,8 +66,7 @@ class _ForgotPasswordState extends ConsumerState<ForgotPasswordScreen> {
                         Container(
                           // color: Colors.red,
                           child: TextFormField_.textFormField(
-                              prefixIcon:
-                                  const Icon(FontAwesomeIcons.envelope),
+                              prefixIcon: const Icon(FontAwesomeIcons.envelope),
                               controller: _emailController,
                               textInputType: TextInputType.emailAddress,
                               hint: "Email address",
@@ -79,20 +78,25 @@ class _ForgotPasswordState extends ConsumerState<ForgotPasswordScreen> {
                         verticalGap(Gaps.mediumGap),
                         isPasswordUpdateRequest_
                             ? loadingButton(
-                            onPressed: () {}, text: "Requesting password reset", width: size.width)
+                                onPressed: () {},
+                                text: "Requesting password reset",
+                                width: size.width)
                             : elevatedButton(
-                            text: "Request password reset",
-                            onPressed: () {
-                              if (_formKey.currentState!.validate()) {
-                                ref.read(isPasswordUpdateRequest.notifier).state = true;
-                                 ForgotPassword.forgotPassword(
-                                  email: _emailController.text,
-                                );
-                                ref.read(isPasswordUpdateRequest.notifier).state =
-                                false;
-                              }
-                            },
-                            width: size.width),
+                                text: "Request password reset",
+                                onPressed: () async {
+                                  if (_formKey.currentState!.validate()) {
+                                    ref
+                                        .read(isPasswordUpdateRequest.notifier)
+                                        .state = true;
+                                    await ForgotPassword.forgotPassword(
+                                      email: _emailController.text,
+                                    );
+                                    ref
+                                        .read(isPasswordUpdateRequest.notifier)
+                                        .state = false;
+                                  }
+                                },
+                                width: size.width),
                       ],
                     ),
                   ),

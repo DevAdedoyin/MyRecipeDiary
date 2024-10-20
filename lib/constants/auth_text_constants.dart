@@ -84,7 +84,9 @@ Please check your email for a reset link. Follow the instructions in the email t
   static String forgotPasswordFailedMessage = """
 We encountered an issue while processing your request to reset your password.
 
-Please ensure that the email address you entered is associated with a Recipe Diary account and try again. If the problem persists, feel free to contact our support team for assistance.
+Please ensure that the email address you entered is associated with a My Recipe Diary account and try again. 
+
+If the problem persists, feel free to contact our support team for assistance.
   """;
 
   // UPDATE PASSWORD: SUCCESSFUL
