@@ -4,14 +4,18 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:myrecipediary/common/dividers.dart';
 import 'package:myrecipediary/common/gaps.dart';
+import 'package:myrecipediary/common/loading_button.dart';
 import 'package:myrecipediary/common/text_form_field.dart';
 import 'package:myrecipediary/constants/colors.dart';
+import 'package:myrecipediary/features/authentication/data/auth_source/register.dart';
 import 'package:myrecipediary/themes/text_theme.dart';
 import 'package:myrecipediary/utils/validators/password_validators.dart';
 
 import '../../../common/elevated_button.dart';
+import '../../../common/progress_indicator.dart';
 import '../../../constants/gaps.dart';
 import '../../../utils/validators/email_validators.dart';
+import '../data/repositories/auth_loading_repo.dart';
 import '../repository/password_visibility_repo.dart';
 
 class RegisterForm extends ConsumerStatefulWidget {
@@ -33,6 +37,7 @@ class _RegisterFormState extends ConsumerState<RegisterForm> {
     Size size = MediaQuery.of(context).size;
     TextTheme textTheme = Theme.of(context).textTheme;
     final isPasswordVisible = ref.watch(isRegisterPasswordVisible);
+    final isRegistering_ = ref.watch(isRegistering);
     return Form(
       key: _formKey,
       child: Column(
@@ -72,9 +77,9 @@ class _RegisterFormState extends ConsumerState<RegisterForm> {
               suffixIcon: GestureDetector(
                   onTap: () {
                     ref.read(isRegisterPasswordVisible.notifier).state =
-                    ref.read(isRegisterPasswordVisible.notifier).state
-                        ? false
-                        : true;
+                        ref.read(isRegisterPasswordVisible.notifier).state
+                            ? false
+                            : true;
                   },
                   child: Icon(isPasswordVisible
                       ? FontAwesomeIcons.eye
@@ -87,21 +92,22 @@ class _RegisterFormState extends ConsumerState<RegisterForm> {
                       password: _passwordController.text,
                       confirmPassword: confirmPassword)),
           verticalGap(Gaps.mediumGap),
-          elevatedButton(
-              text: "Register",
-              onPressed: () {
-                if (!_formKey.currentState!.validate()) {
-                  // ref.read(isAuthLoading.notifier).state = true;
-                  // await FireAuth.signInUsingEmailPassword(
-                  //   context: context,
-                  //   email: _emailController.text,
-                  //   password: _passwordController.text,
-                  // );
-                  // ref.read(isAuthLoading.notifier).state =
-                  // false;
-                }
-              },
-              width: size.width),
+          !isRegistering_
+              ? loadingButton(
+                  onPressed: () {}, text: "Registration in progress", width: size.width)
+              : elevatedButton(
+                  text: "Register",
+                  onPressed: () {
+                    if (!_formKey.currentState!.validate()) {
+                      ref.read(isRegistering.notifier).state = true;
+                      RegisterAuth.registerUsingEmailPassword(
+                        email: _emailController.text,
+                        password: _passwordController.text,
+                      );
+                      ref.read(isRegistering.notifier).state = false;
+                    }
+                  },
+                  width: size.width),
           verticalGap(Gaps.mediumGap),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,

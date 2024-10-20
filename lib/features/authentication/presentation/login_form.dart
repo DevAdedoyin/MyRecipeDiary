@@ -6,13 +6,16 @@ import 'package:myrecipediary/common/dividers.dart';
 import 'package:myrecipediary/common/gaps.dart';
 import 'package:myrecipediary/common/text_form_field.dart';
 import 'package:myrecipediary/constants/colors.dart';
+import 'package:myrecipediary/features/authentication/data/auth_source/login.dart';
 import 'package:myrecipediary/features/authentication/repository/password_visibility_repo.dart';
 import 'package:myrecipediary/routing/app_routes.dart';
 import 'package:myrecipediary/themes/text_theme.dart';
 import 'package:myrecipediary/utils/validators/email_validators.dart';
 import "package:flutter_riverpod/flutter_riverpod.dart";
 import '../../../common/elevated_button.dart';
+import '../../../common/loading_button.dart';
 import '../../../constants/gaps.dart';
+import '../data/repositories/auth_loading_repo.dart';
 
 class LoginForm extends ConsumerStatefulWidget {
   const LoginForm({super.key});
@@ -32,6 +35,7 @@ class _LoginFormState extends ConsumerState<LoginForm> {
     Size size = MediaQuery.of(context).size;
     TextTheme textTheme = Theme.of(context).textTheme;
     final isPasswordVisible = ref.watch(isLoginPasswordVisible);
+    final isLoginIn_ = ref.watch(isLoginIn);
     return Form(
       key: _formKey,
       child: Column(
@@ -75,18 +79,19 @@ class _LoginFormState extends ConsumerState<LoginForm> {
             ),
           ),
           verticalGap(Gaps.bigMediumGap),
-          elevatedButton(
+          !isLoginIn_
+              ? loadingButton(
+              onPressed: () {}, text: "Login in progress", width: size.width)
+              :  elevatedButton(
               text: "Login",
               onPressed: () {
                 if (!_formKey.currentState!.validate()) {
-                  // ref.read(isAuthLoading.notifier).state = true;
-                  // await FireAuth.signInUsingEmailPassword(
-                  //   context: context,
-                  //   email: _emailController.text,
-                  //   password: _passwordController.text,
-                  // );
-                  // ref.read(isAuthLoading.notifier).state =
-                  // false;
+                  ref.read(isLoginIn.notifier).state = true;
+                  LoginAuth.loginUsingEmailPassword(
+                    email: _emailController.text,
+                    password: _passwordController.text,
+                  );
+                  ref.read(isRegistering.notifier).state = false;
                 }
               },
               width: size.width),
