@@ -1,4 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:myrecipediary/common/app_alert_dialog.dart';
+import 'package:myrecipediary/constants/auth_text_constants.dart';
+import 'package:get/get.dart';
+
+import '../../../../routing/app_routes.dart';
 
 class RegisterAuth {
   static Future<User?> registerUsingEmailPassword({
@@ -17,29 +22,23 @@ class RegisterAuth {
       await user?.reload();
       user = auth.currentUser;
 
-//       final message = """
-// Hi ${user!.displayName},
-//
-// Your registration is almost complete.
-//
-// Please, kindly check your email for a verification link.
-//
-// Thank you
-// """;
-//       const messageHeader = "REGISTRATION SUCCESSFUL";
-//       successAuthAlertWidget(context!, message, messageHeader);
-//       Future.delayed(
-//           const Duration(seconds: 4), () => context.go(AppRoutes.login));
+      AppAlertDialog.successfulAlert(
+          title: "REGISTRATION SUCCESSFUL",
+          message: AuthTextConstants.successfulRegistrationMessage);
+
+      Future.delayed(const Duration(seconds: 4), () => Get.to(AppRoutes.login));
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
-        // failedAuthAlertWidget(context!, e.message!, "REGISTRATION FAILED");
+        AppAlertDialog.failedAlert(
+            title: "WEAK PASSWORD", message: AuthTextConstants.weakPasswordMessage);
       } else if (e.code == 'email-already-in-use') {
-        // failedAuthAlertWidget(context!, e.message!, "REGISTRATION FAILED");
+        AppAlertDialog.infoAlert(
+            title: "EMAIL ALREADY REGISTERED",
+            message: AuthTextConstants.emailAlreadyRegistered);
       }
     } catch (e) {
       // print(e);
     }
     return user;
   }
-
 }
