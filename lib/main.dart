@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:get/get.dart';
 import 'package:myrecipediary/routing/go_router_provider.dart';
 import 'package:myrecipediary/themes/theme.dart';
 import 'package:myrecipediary/themes/theme_manager.dart';
@@ -17,7 +18,11 @@ Future<void> main() async {
   ]);
   // WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  runApp(const ProviderScope(child: MyRecipeDiary()));
+  runApp(
+    const GetMaterialApp(
+      home: ProviderScope(child: MyRecipeDiary()),
+    ),
+  );
 }
 
 class MyRecipeDiary extends ConsumerStatefulWidget {
