@@ -64,6 +64,7 @@ dependencies:
   shimmer: ^3.0.0
   onboarding: ^4.0.2
   animated_text_kit: ^4.2.2
+  awesome_bottom_bar: ^1.2.4
 
 
 dev_dependencies:

@@ -7,6 +7,8 @@ class AppColors {
   static  Color lightGreyColor = Colors.grey.shade100;
   static  Color midGreyColor = Colors.grey.shade500;
   static  Color darkGreyColor = Colors.grey.shade900;
+  static Color complementaryColor = Colors.teal.shade300;
+  static Color complementaryColor1 = Color(0xFF008080);
   static const accentColor = Colors.red;
   static const fontColor = Color.fromRGBO(40, 40, 43, 1.0);
   static final inputFieldBG = Colors.grey.withOpacity(0.1);

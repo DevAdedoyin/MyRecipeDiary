@@ -1,5 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:myrecipediary/routing/route_error_screen.dart';
+import '../dashboard/presentation/dashboard.dart';
 import '../features/authentication/presentation/forgot_password.dart';
 import '../features/authentication/presentation/login.dart';
 import '../features/authentication/presentation/register.dart';
@@ -30,10 +31,10 @@ GoRouter goRouter = GoRouter(
       path: AppRoutes.forgotPassword,
       builder: (context, state) => const ForgotPasswordScreen(),
     ),
-    // GoRoute(
-    //   path: AppRoutes.dashboard,
-    //   builder: (context, state) => const Dashboard(),
-    // ),
+    GoRoute(
+      path: AppRoutes.dashboard,
+      builder: (context, state) => const DashboardScreen(),
+    ),
     // GoRoute(
     //   path: AppRoutes.changePassword,
     //   builder: (context, state) => const ChangePasswordScreen(),
