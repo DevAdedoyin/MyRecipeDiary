@@ -19,9 +19,10 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(
-    const GetMaterialApp(
-      home: ProviderScope(child: MyRecipeDiary()),
-    ),
+      const ProviderScope(
+        child: MyRecipeDiary(),
+      ),
+
   );
 }
 
