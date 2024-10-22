@@ -34,9 +34,9 @@ class _HomeCategoryState extends State<HomeCategory> {
           future: RecipeCategoriesDataSource.fetchCategories(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Text("TESTING");
+              return const ShimmerLoader();
             } else if (snapshot.hasError) {
-              return const Center(child: Text('Error loading data'));
+              return const ShimmerLoader();
             }
             return ListView.builder(
                 itemBuilder: (_, index) {
@@ -44,7 +44,7 @@ class _HomeCategoryState extends State<HomeCategory> {
                   return Card(
                     elevation: 10,
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
+                        borderRadius: BorderRadius.circular(15)),
                     margin: EdgeInsets.symmetric(horizontal: Gaps.smallGap),
                     child: Container(
                       height: size.height * 0.18,
@@ -52,7 +52,7 @@ class _HomeCategoryState extends State<HomeCategory> {
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
                         // color: AppColors.secondaryColor,
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(15),
                         image: DecorationImage(
                           fit: BoxFit.cover,
                           image: AssetImage(
@@ -71,7 +71,7 @@ class _HomeCategoryState extends State<HomeCategory> {
                           style: GoogleFonts.arsenal(
                             fontSize: FontSizes.largeFont,
                             shadows: [
-                              Shadow(
+                              const Shadow(
                                 offset: Offset(2.0, 2.0), // Shadow position
                                 blurRadius: 3.0, // Shadow blur effect
                                 color: Colors.black, // Shadow color

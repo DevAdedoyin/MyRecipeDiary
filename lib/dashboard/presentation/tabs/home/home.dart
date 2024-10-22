@@ -37,9 +37,14 @@ class _HomeTabState extends ConsumerState<HomeTab> {
             verticalGap(Gaps.mediumGap),
             Padding(
               padding:  EdgeInsets.symmetric(horizontal: Gaps.mediumGap),
-              child: Text("Recipe Categories", style: textTheme.headlineMedium),
+              child: Text("Categories", style: textTheme.headlineMedium),
             ),
             const HomeCategory(),
+            verticalGap(Gaps.mediumGap),
+            Padding(
+              padding:  EdgeInsets.symmetric(horizontal: Gaps.mediumGap),
+              child: Text("Recommended", style: textTheme.headlineMedium),
+            ),
           ],
         ),
       ),
