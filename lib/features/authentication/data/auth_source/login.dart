@@ -28,7 +28,7 @@ class LoginAuth {
             message: AuthTextConstants.emailNotVerifiedMessage);
         return user;
       }
-
+      // Future.delayed(Duration(milliseconds: ))
       AppAlertDialog.successfulAlert(
           title: "LOGIN SUCCESSFUL",
           message: AuthTextConstants.successfulLoginMessage);

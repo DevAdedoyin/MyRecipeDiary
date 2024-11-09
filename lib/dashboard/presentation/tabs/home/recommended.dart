@@ -3,8 +3,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:myrecipediary/common/gaps.dart';
 import 'package:myrecipediary/common/shimmer_loaders/recommended_shimmer.dart';
 import 'package:myrecipediary/constants/colors.dart';
+import 'package:myrecipediary/constants/gaps.dart';
+
+import '../../../../constants/font_sizes.dart';
 
 class RecommendedRecipes extends StatefulWidget {
   const RecommendedRecipes({super.key});
@@ -61,8 +67,65 @@ class _RecommendedRecipesState extends State<RecommendedRecipes> {
                       ),
                     ),
                   ),
-                  child: Text(
-                      "${mealObject["meal_name"] ?? mealObject["meal_name "]}"),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          alignment: Alignment.centerRight,
+                          child: IconButton(
+                              onPressed: () {},
+                              icon: Icon(Icons.favorite),
+                              color: AppColors.accentColor,
+                              iconSize: 35),
+                        ),
+                        Spacer(),
+                        Container(
+                          width: double.maxFinite,
+                          height: size.height * 0.04,
+                          color: Colors.black.withOpacity(0.65),
+                          child: Text(
+                            "${mealObject["meal_name"] ?? mealObject["meal_name "]}",
+                            style: GoogleFonts.openSans(
+                              fontSize: FontSizes.bigMediumFont,
+                              shadows: [
+                                const Shadow(
+                                  offset: Offset(3.0, 3.0), // Shadow position
+                                  blurRadius: 3.0, // Shadow blur effect
+                                  color: Colors.black, // Shadow color
+                                ),
+                              ],
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          width: double.maxFinite,
+                          height: size.height * 0.04,
+                          color: Colors.black.withOpacity(0.65),
+                          child: Text(
+                            "${mealObject["meal_ingredients"].length} Ingredients | 45 mins",
+                            style: GoogleFonts.openSans(
+                              fontSize: FontSizes.smallFont,
+                              shadows: [
+                                const Shadow(
+                                  offset: Offset(3.0, 3.0), // Shadow position
+                                  blurRadius: 3.0, // Shadow blur effect
+                                  color: Colors.black, // Shadow color
+                                ),
+                              ],
+                              color: Colors.white,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ),
+                        verticalGap(Gaps.mediumGap)
+                      ],
+                    ),
+                  ),
                 );
               }).toList(),
             );

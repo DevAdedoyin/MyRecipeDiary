@@ -7,7 +7,7 @@ class AppAlertDialog {
   static successfulAlert({required String title, required String message}) {
     Get.snackbar(title, message,
         backgroundColor: AppColors.successGreen,
-        duration: const Duration(seconds: 4),
+        duration: const Duration(seconds: 3),
         colorText: Colors.white);
   }
 

@@ -38,14 +38,15 @@ class _HomeTabState extends ConsumerState<HomeTab> {
             verticalGap(Gaps.mediumGap),
             Padding(
               padding:  EdgeInsets.symmetric(horizontal: Gaps.mediumGap),
-              child: Text("Categories", style: textTheme.headlineSmall),
+              child: Text("Categories", style: textTheme.titleLarge),
             ),
             const HomeCategory(),
             verticalGap(Gaps.mediumGap),
             Padding(
               padding:  EdgeInsets.symmetric(horizontal: Gaps.mediumGap),
-              child: Text("Recommended", style: textTheme.headlineSmall),
+              child: Text("Recommended", style: textTheme.titleLarge),
             ),
+            verticalGap(Gaps.smallGap),
             const RecommendedRecipes()
           ],
         ),

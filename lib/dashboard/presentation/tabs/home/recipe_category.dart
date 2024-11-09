@@ -69,7 +69,7 @@ class _HomeCategoryState extends State<HomeCategory> {
                         child: Text(
                           data!.strCategory,
                           style: GoogleFonts.openSans(
-                            fontSize: FontSizes.bigMediumFont,
+                            fontSize: FontSizes.mediumFont,
                             shadows: [
                               const Shadow(
                                 offset: Offset(2.0, 2.0), // Shadow position
