@@ -64,12 +64,12 @@ class _HomeCategoryState extends State<HomeCategory> {
                       child: Container(
                         width: size.height * 0.18,
                         height: size.height * 0.04,
-                        color: Colors.black.withOpacity(0.6),
+                        color: Colors.black.withOpacity(0.65),
                         alignment: Alignment.center,
                         child: Text(
                           data!.strCategory,
-                          style: GoogleFonts.arsenal(
-                            fontSize: FontSizes.largeFont,
+                          style: GoogleFonts.openSans(
+                            fontSize: FontSizes.bigMediumFont,
                             shadows: [
                               const Shadow(
                                 offset: Offset(2.0, 2.0), // Shadow position

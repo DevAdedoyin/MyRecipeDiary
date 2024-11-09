@@ -8,6 +8,7 @@ import 'package:myrecipediary/common/text_form_field.dart';
 import 'package:myrecipediary/constants/gaps.dart';
 import 'package:myrecipediary/dashboard/presentation/tabs/home/home_header.dart';
 import 'package:myrecipediary/dashboard/presentation/tabs/home/recipe_category.dart';
+import 'package:myrecipediary/dashboard/presentation/tabs/home/recommended.dart';
 
 import '../../../../constants/colors.dart';
 import '../../../../constants/font_sizes.dart';
@@ -37,14 +38,15 @@ class _HomeTabState extends ConsumerState<HomeTab> {
             verticalGap(Gaps.mediumGap),
             Padding(
               padding:  EdgeInsets.symmetric(horizontal: Gaps.mediumGap),
-              child: Text("Categories", style: textTheme.headlineMedium),
+              child: Text("Categories", style: textTheme.headlineSmall),
             ),
             const HomeCategory(),
             verticalGap(Gaps.mediumGap),
             Padding(
               padding:  EdgeInsets.symmetric(horizontal: Gaps.mediumGap),
-              child: Text("Recommended", style: textTheme.headlineMedium),
+              child: Text("Recommended", style: textTheme.headlineSmall),
             ),
+            const RecommendedRecipes()
           ],
         ),
       ),

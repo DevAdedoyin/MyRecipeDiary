@@ -47,7 +47,7 @@ class _HomeHeaderState extends State<HomeHeader> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Hello",
+                      "Hello Adedoyin,",
                       textAlign: TextAlign.left,
                       style: GoogleFonts.arsenal(
                         fontSize: FontSizes.mediumFont,
@@ -57,7 +57,7 @@ class _HomeHeaderState extends State<HomeHeader> {
                     ),
                     verticalGap(Gaps.extraSmallGap),
                     Text(
-                      "Adedoyin Idris",
+                      "What would you like to\ncook today?",
                       style: GoogleFonts.arsenal(
                         fontSize: FontSizes.largeFont,
                         color: Colors.white,

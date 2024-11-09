@@ -23,10 +23,6 @@ class ShimmerLoader extends StatelessWidget {
                   borderRadius: BorderRadius.circular(15)),
               margin: EdgeInsets.symmetric(horizontal: Gaps.smallGap),
               child: Container(
-                decoration: BoxDecoration(
-                  // color: AppColors.secondaryColor,
-                  borderRadius: BorderRadius.circular(15),
-                ),
                 height: size.height * 0.18,
                 width: size.height * 0.18,
                 margin: EdgeInsets.symmetric(horizontal: Gaps.smallGap),

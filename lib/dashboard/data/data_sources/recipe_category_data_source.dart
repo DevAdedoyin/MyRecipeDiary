@@ -10,7 +10,7 @@ class RecipeCategoriesDataSource {
     try {
 
       String uri =
-          "https://www.themealdb.com/api/json/v1/1/categories.ph";
+          "https://www.themealdb.com/api/json/v1/1/categories.php";
 
       final response = await http.get(Uri.parse(uri));
 

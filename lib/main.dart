@@ -11,7 +11,7 @@ import 'package:myrecipediary/themes/theme_notifier.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
-  // await dotenv.load(fileName: ".env");
+  await dotenv.load(fileName: ".env");
   // FirebaseInitialization.initializeFirebase();
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
