@@ -59,7 +59,7 @@ class _RecommendedRecipesState extends State<RecommendedRecipes> {
                   width: size.width * 0.8,
                   margin: const EdgeInsets.symmetric(horizontal: 5.0),
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(15),
                     image: DecorationImage(
                       fit: BoxFit.cover,
                       image: NetworkImage(
@@ -75,11 +75,16 @@ class _RecommendedRecipesState extends State<RecommendedRecipes> {
                       children: [
                         Container(
                           alignment: Alignment.centerRight,
-                          child: IconButton(
-                              onPressed: () {},
-                              icon: Icon(Icons.favorite),
-                              color: AppColors.accentColor,
-                              iconSize: 35),
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: AppColors.accentColor.shade300,
+                                borderRadius: BorderRadius.circular(15)),
+                            child: IconButton(
+                                onPressed: () {},
+                                icon: const Icon(Icons.favorite),
+                                color: Colors.redAccent.shade700,
+                                iconSize: 35),
+                          ),
                         ),
                         Spacer(),
                         Container(

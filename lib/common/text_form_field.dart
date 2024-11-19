@@ -12,14 +12,16 @@ class TextFormField_ {
           validator,
           isObscured,
           textInputAction,
+            maxLines = 1,
           filledColor}) =>
       TextFormField(
-        maxLines: 1,
+        maxLines: maxLines,
         controller: controller,
         keyboardType: textInputType,
         validator: validator,
         obscureText: isObscured,
         textInputAction: textInputAction,
+
         decoration: InputDecoration(
             hintText: hint,
             contentPadding: EdgeInsets.symmetric(
