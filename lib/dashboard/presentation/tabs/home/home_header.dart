@@ -3,6 +3,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -11,18 +12,21 @@ import '../../../../common/text_form_field.dart';
 import '../../../../constants/colors.dart';
 import '../../../../constants/font_sizes.dart';
 import '../../../../constants/gaps.dart';
+import '../../../repository/category_repo.dart';
 
-class HomeHeader extends StatefulWidget {
+class HomeHeader extends ConsumerStatefulWidget {
   const HomeHeader({super.key});
 
   @override
-  State<HomeHeader> createState() => _HomeHeaderState();
+  ConsumerState<HomeHeader> createState() => _HomeHeaderState();
 }
 
-class _HomeHeaderState extends State<HomeHeader> {
+class _HomeHeaderState extends ConsumerState<HomeHeader> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+
+
     return  Container(
       height: size.height * 0.29,
       width: size.width,

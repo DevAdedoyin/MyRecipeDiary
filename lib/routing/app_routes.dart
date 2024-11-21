@@ -12,6 +12,8 @@ class AppRoutes {
   // Category Routes
   static const String settings = '/settings';
   static const String dashboard = '/dashboard';
+  static const String categoryMealScreen = '/categoryMealScreen';
+
 
 
 }
