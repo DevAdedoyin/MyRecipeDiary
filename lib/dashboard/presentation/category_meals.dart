@@ -70,7 +70,7 @@ class _CategoryMealsScreenState extends ConsumerState<CategoryMealsScreen> {
                               // Handle the like button action here
                               print('Liked: ${snapshot.data!.listOfCategoryItemsModel[index].strMeal}');
                             },
-                            child: Icon(
+                            child: const Icon(
                               Icons.favorite, // Use Icons.favorite for a filled heart
                               color: Colors.red,
                               size: 30,

@@ -1,6 +1,3 @@
-
-
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -26,8 +23,7 @@ class _HomeHeaderState extends ConsumerState<HomeHeader> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-
-    return  Container(
+    return Container(
       height: size.height * 0.29,
       width: size.width,
       padding: EdgeInsets.symmetric(
@@ -75,16 +71,21 @@ class _HomeHeaderState extends ConsumerState<HomeHeader> {
                     width: 50,
                     child: ClipOval(
                         child: Image.asset(
-                          "assets/images/onboarding.jpg",
-                          fit: BoxFit.cover,
-                        )))
+                      "assets/images/onboarding.jpg",
+                      fit: BoxFit.cover,
+                    )))
               ],
             ),
           ),
           // verticalGap(Gaps.mediumGap),
           TextFormField_.textFormField(
+              maxLines: 1,
+              suffixIcon:
+                  GestureDetector(onTap: () {}, child: const Icon(Icons.send)),
               prefixIcon: const Icon(FontAwesomeIcons.magnifyingGlass),
-              isObscured: false, filledColor: Colors.white)
+              hint: "Search recipe",
+              isObscured: false,
+              filledColor: Colors.white)
         ],
       ),
     );
