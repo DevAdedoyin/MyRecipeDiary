@@ -1,8 +1,10 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:myrecipediary/common/app_alert_dialog.dart';
 import 'package:myrecipediary/common/gaps.dart';
 import 'package:myrecipediary/common/media_picker.dart';
 import 'package:myrecipediary/constants/colors.dart';
@@ -33,6 +35,45 @@ class _AddRecipeTabState extends ConsumerState<AddRecipeTab> {
 
     Size size = MediaQuery.of(context).size;
     TextTheme textTheme = Theme.of(context).textTheme;
+    int maxFileSizeInMB = 100;
+
+    String? _selectedVideoPath;
+    String? _errorMessage =
+        "The selected video is too large. Maximum size allowed: $maxFileSizeInMB MB.";
+
+    Future<void> _pickVideo() async {
+      try {
+        // Open file picker for video files
+        final result = await FilePicker.platform.pickFiles(
+          type: FileType.video,
+        );
+
+        if (result != null && result.files.isNotEmpty) {
+          final file = result.files.first;
+          final fileSizeInMB = file.size / (1024 * 1024);
+
+          if (fileSizeInMB > maxFileSizeInMB) {
+            setState(() {
+              _selectedVideoPath = null;
+            });
+            AppAlertDialog.failedAlert(
+                title: "File Too Large", message: _errorMessage!);
+          } else {
+            setState(() {
+              _selectedVideoPath = file.path;
+              _errorMessage = null;
+            });
+          }
+        }
+      } catch (e) {
+        setState(() {
+          _errorMessage = "An error occurred: ${e.toString()}";
+        });
+        AppAlertDialog.failedAlert(
+            title: "Error", message: _errorMessage!);
+      }
+    }
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -68,9 +109,31 @@ class _AddRecipeTabState extends ConsumerState<AddRecipeTab> {
                 verticalGap(size.height * 0.02),
                 const MediaPickerWidget(isImage: true),
                 verticalGap(size.height * 0.02),
-                const MediaPickerWidget(
-                  isImage: false,
-                ),
+                Container(
+                    width: size.width * 0.9,
+                    padding:
+                        EdgeInsets.symmetric(horizontal: Gaps.extraSmallGap),
+                    decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.black,
+                        ),
+                        borderRadius: BorderRadius.circular(7)),
+                    child: Row(
+                      children: [
+                        Expanded(
+                            child: Container(
+                          child: Text(
+                            _selectedVideoPath == null
+                                ? "Select video"
+                                : _selectedVideoPath!,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        )),
+                        IconButton(
+                            onPressed: _pickVideo,
+                            icon: Icon(FontAwesomeIcons.video)),
+                      ],
+                    )),
                 verticalGap(size.height * 0.03),
                 SizedBox(
                   width: size.width * 0.9,
