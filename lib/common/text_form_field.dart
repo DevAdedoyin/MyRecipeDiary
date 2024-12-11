@@ -4,7 +4,7 @@ import 'package:myrecipediary/constants/gaps.dart';
 
 class TextFormField_ {
   static textFormField(
-          {required Widget prefixIcon,
+          { prefixIcon,
           suffixIcon,
           controller,
           textInputType,
@@ -24,6 +24,7 @@ class TextFormField_ {
 
         decoration: InputDecoration(
             hintText: hint,
+            hintStyle: TextStyle(fontStyle: FontStyle.italic, fontWeight: FontWeight.w500),
             contentPadding: EdgeInsets.symmetric(
                 vertical: Gaps.smallGap, horizontal: Gaps.bigMediumGap),
             filled: true,

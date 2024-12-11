@@ -1,10 +1,16 @@
 import 'package:file_picker/file_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:myrecipediary/common/alert_dialogs/error_alert_dialog.dart';
 import 'package:myrecipediary/common/app_alert_dialog.dart';
+import 'package:myrecipediary/common/elevated_button.dart';
 import 'package:myrecipediary/common/gaps.dart';
 import 'package:myrecipediary/common/media_picker.dart';
 import 'package:myrecipediary/constants/colors.dart';
@@ -12,8 +18,11 @@ import 'package:image_picker/image_picker.dart';
 import 'package:myrecipediary/constants/font_sizes.dart';
 import 'package:myrecipediary/constants/gaps.dart';
 import 'package:myrecipediary/utils/validators/meal_input_validators.dart';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
+import '../../../common/alert_dialogs/info_alert_dialog.dart';
+import '../../../common/alert_dialogs/success_alert_dialog.dart';
 import '../../../common/text_form_field.dart';
+import '../../repository/ingredient_repo.dart';
 // import 'package:video_player/video_player.dart';
 
 class AddRecipeTab extends ConsumerStatefulWidget {
@@ -24,55 +33,42 @@ class AddRecipeTab extends ConsumerStatefulWidget {
 }
 
 class _AddRecipeTabState extends ConsumerState<AddRecipeTab> {
+  int maxFileSizeInMB = 100;
+
+  String? _selectedVideoPath;
+  String? _errorMessage =
+      "The selected video is too large. Maximum size allowed: 100MB.";
+
+  int initialIngredient = 0;
+
+  // List<String> strIngredient = [];
+  // List<String> strMeasure = [];
+
+  final _formKey = GlobalKey<FormState>();
+
+  final _mealNameController = TextEditingController();
+  final _mealCategoryController = TextEditingController();
+  final _mealIngredientsController = TextEditingController();
+  final _mealStepsController = TextEditingController();
+  final _ingredientController = TextEditingController();
+  final _ingredientQuantityController = TextEditingController();
+
+  User? user;
+
   @override
   Widget build(BuildContext context) {
-    final _formKey = GlobalKey<FormState>();
-
-    final _mealNameController = TextEditingController();
-    final _mealCategoryController = TextEditingController();
-    final _mealIngredientsController = TextEditingController();
-    final _mealStepsController = TextEditingController();
-
     Size size = MediaQuery.of(context).size;
     TextTheme textTheme = Theme.of(context).textTheme;
-    int maxFileSizeInMB = 100;
 
-    String? _selectedVideoPath;
-    String? _errorMessage =
-        "The selected video is too large. Maximum size allowed: $maxFileSizeInMB MB.";
+    final numberOfIngredients_ = ref.watch(numberOfIngredients);
+    final ingredients_ = ref.watch(ingredients);
+    final ingredientsMeasure_ = ref.watch(ingredientsMeasure);
+    final strIngredient_ = ref.watch(strIngredient);
+    final strMeasure_ = ref.watch(strMeasure);
+    final selectedImage_ = ref.watch(selectedImage);
 
-    Future<void> _pickVideo() async {
-      try {
-        // Open file picker for video files
-        final result = await FilePicker.platform.pickFiles(
-          type: FileType.video,
-        );
-
-        if (result != null && result.files.isNotEmpty) {
-          final file = result.files.first;
-          final fileSizeInMB = file.size / (1024 * 1024);
-
-          if (fileSizeInMB > maxFileSizeInMB) {
-            setState(() {
-              _selectedVideoPath = null;
-            });
-            AppAlertDialog.failedAlert(
-                title: "File Too Large", message: _errorMessage!);
-          } else {
-            setState(() {
-              _selectedVideoPath = file.path;
-              _errorMessage = null;
-            });
-          }
-        }
-      } catch (e) {
-        setState(() {
-          _errorMessage = "An error occurred: ${e.toString()}";
-        });
-        AppAlertDialog.failedAlert(
-            title: "Error", message: _errorMessage!);
-      }
-    }
+    CollectionReference users_ =
+        FirebaseFirestore.instance.collection("${user?.uid}");
 
     return Scaffold(
       appBar: AppBar(
@@ -88,12 +84,12 @@ class _AddRecipeTabState extends ConsumerState<AddRecipeTab> {
             margin: EdgeInsets.only(right: Gaps.smallGap),
             child: TextButton(
               onPressed: () {},
-              child: Text(
+              style: const ButtonStyle(
+                  backgroundColor: MaterialStatePropertyAll(Colors.black)),
+              child: const Text(
                 "Submit recipe",
                 style: TextStyle(color: Colors.white),
               ),
-              style: ButtonStyle(
-                  backgroundColor: MaterialStatePropertyAll(Colors.black)),
             ),
           )
         ],
@@ -131,7 +127,7 @@ class _AddRecipeTabState extends ConsumerState<AddRecipeTab> {
                         )),
                         IconButton(
                             onPressed: _pickVideo,
-                            icon: Icon(FontAwesomeIcons.video)),
+                            icon: const Icon(FontAwesomeIcons.video)),
                       ],
                     )),
                 verticalGap(size.height * 0.03),
@@ -168,73 +164,204 @@ class _AddRecipeTabState extends ConsumerState<AddRecipeTab> {
                       isObscured: false,
                       textInputAction: TextInputAction.next),
                 ),
-                verticalGap(size.height * 0.03),
+                verticalGap(size.height * 0.02),
+                strIngredient_.isEmpty
+                    ? const SizedBox()
+                    : SizedBox(
+                        child: Column(
+                          children: List.generate(
+                            strIngredient_.length,
+                            (index) => Card(
+                              elevation: 5,
+                              margin: EdgeInsets.symmetric(
+                                  horizontal: Gaps.bigMediumGap, vertical: 8),
+                              child: ListTile(
+                                dense: true,
+                                title: Text(strIngredient_[index]),
+                                subtitle: Text(strMeasure_[index]),
+                                trailing: IconButton(
+                                  icon: const Icon(Icons.edit),
+                                  onPressed: () {},
+                                ),
+                                onTap: () {},
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                verticalGap(size.height * 0.02),
                 SizedBox(
-                    width: size.width * 0.9,
+                    width: size.width * 0.92,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         SizedBox(
-                          width: size.width * 0.6,
+                          width: size.width * 0.5,
                           child: TextFormField_.textFormField(
-                              prefixIcon: const Icon(
-                                Icons.category,
-                                color: AppColors.secondaryColor,
-                              ),
                               controller: _mealIngredientsController,
-                              // textInputType: TextInputType.emailAddress,
-                              suffixIcon: GestureDetector(
-                                  onTap: () {}, child: Icon(Icons.send)),
-                              hint: " Add Ingredient",
-                              // validator: (email) =>
-                              //     MealInputValidators.validateMealInput(
-                              //         text: _mealCategoryController.text),
+                              hint: "Add Ingredient",
                               isObscured: false,
                               textInputAction: TextInputAction.next),
                         ),
                         SizedBox(
-                          width: size.width * 0.3,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              IconButton(
-                                  onPressed: () {},
-                                  icon: Icon(Icons.remove_circle)),
-                              Text("1"),
-                              IconButton(
-                                  onPressed: () {},
-                                  icon: Icon(Icons.add_circle_rounded)),
-                            ],
+                          width: size.width * 0.39,
+                          child: TextFormField_.textFormField(
+                            controller: _ingredientQuantityController,
+                            hint: "Ingredient Qty",
+                            isObscured: false,
+                            textInputAction: TextInputAction.next,
                           ),
-                        )
+                        ),
                       ],
                     )),
+                verticalGap(size.height * 0.01),
+                SizedBox(
+                  child: ElevatedButton(
+                      onPressed: () {
+                        String strIngredient_ = "strIngredient";
+                        String strMeasure_ = "strMeasure";
+                        print("object");
+                        if (_mealIngredientsController.text.isNotEmpty &&
+                            _ingredientQuantityController.text.isNotEmpty) {
+                          ref
+                              .read(strIngredient.notifier)
+                              .state
+                              .add(_mealIngredientsController.text);
+                          ref
+                              .read(strMeasure.notifier)
+                              .state
+                              .add(_ingredientQuantityController.text);
+                          ref.read(numberOfIngredients.notifier).state++;
+                          strIngredient_ += numberOfIngredients_.toString();
+                          strMeasure_ += numberOfIngredients_.toString();
+                          ref.read(ingredients.notifier).state[strIngredient_] =
+                              _mealIngredientsController.text;
+                          ref
+                                  .read(ingredientsMeasure.notifier)
+                                  .state[strMeasure_] =
+                              _ingredientQuantityController.text;
+                          print("STR TEST");
+                          print(ref.read(ingredients.notifier).state);
+                          print(ref.read(ingredientsMeasure.notifier).state);
+                          _mealIngredientsController.clear();
+                          _ingredientQuantityController.clear();
+                        } else if ((_mealIngredientsController.text.isEmpty &&
+                                _ingredientQuantityController
+                                    .text.isNotEmpty) ||
+                            (_mealIngredientsController.text.isNotEmpty &&
+                                _ingredientQuantityController.text.isEmpty)) {
+                          infoAuthAlertWidget(
+                              context,
+                              "You must enter both the ingredients and their quantities.",
+                              "Input Requirements Notice", onTap: () {
+                            context.pop();
+                          });
+                        } else {
+                          infoAuthAlertWidget(
+                              context,
+                              "You must enter both the ingredients and their quantities.",
+                              "Input Requirements Notice", onTap: () {
+                            context.pop();
+                          });
+                        }
+                      },
+                      style: const ButtonStyle(
+                          backgroundColor: MaterialStatePropertyAll(
+                              AppColors.secondaryColor)),
+                      child: const Text(
+                        "Add Ingredient",
+                        style: TextStyle(color: Colors.white),
+                      )),
+                ),
                 verticalGap(size.height * 0.03),
                 SizedBox(
                   width: size.width * 0.9,
                   child: TextFormField_.textFormField(
-                      prefixIcon: const Icon(
-                        FontAwesomeIcons.sort,
-                        color: AppColors.secondaryColor,
-                      ),
-                      maxLines: 5,
+                      maxLines: 10,
                       controller: _mealStepsController,
                       // textInputType: TextInputType.emailAddress,
-                      hint: "Meal steps (Step 1)",
-                      validator: (email) =>
-                          MealInputValidators.validateMealInput(
-                              text: _mealCategoryController.text),
+                      hint: "Enter the steps in preparing the meal here",
                       isObscured: false,
-                      suffixIcon: GestureDetector(
-                          onTap: () {}, child: Icon(Icons.send)),
                       textInputAction: TextInputAction.next),
                 ),
-                verticalGap(size.height * 0.05),
+                verticalGap(size.height * 0.02),
+                elevatedButton(
+                    onPressed: () {
+                      if (ref.read(selectedImage.notifier).state.isEmpty) {
+                        return infoAuthAlertWidget(
+                          context,
+                          "Image upload is required. Please select and upload an image before proceeding",
+                          "Recipe Submission Requirement",
+                        );
+                      }
+                      if (_mealNameController.text.isEmpty ||
+                          _mealCategoryController.text.isEmpty ||
+                          _mealStepsController.text.isEmpty) {
+                        infoAuthAlertWidget(
+                          context,
+                          "Please ensure that you enter the meal name, meal category, and preparation steps for your recipe.",
+                          "Recipe Submission Requirements",
+                        );
+                      } else {
+                        users_.add({
+                          "strMeal	": _mealNameController.text,
+                          "strCategory	": _mealCategoryController.text,
+                          "strInstructions	": _mealStepsController.text,
+                          "strMealThumb	": selectedImage_,
+                          ...ref.read(ingredients.notifier).state,
+                          ...ref.read(ingredientsMeasure.notifier).state,
+                          // "strMealThumb	":
+                        }).then((value) {
+                          successAlertWidget(
+                              context,
+                              "Your recipe has been successfully submitted",
+                              "Recipe Submitted", onTap: () {
+                            context.pop();
+                          });
+                        }).catchError((error){
+                          errorAlertWidget(context, error, "Recipe Submission Unsuccessful");
+                        });
+                      }
+                    },
+                    text: "Submit Your Recipe",
+                    width: size.width * 0.85)
               ],
             ),
           ),
         ),
       ),
     );
+  }
+
+  Future<void> _pickVideo() async {
+    try {
+      // Open file picker for video files
+      final result = await FilePicker.platform.pickFiles(
+        type: FileType.video,
+      );
+
+      if (result != null && result.files.isNotEmpty) {
+        final file = result.files.first;
+        final fileSizeInMB = file.size / (1024 * 1024);
+
+        if (fileSizeInMB > maxFileSizeInMB) {
+          setState(() {
+            _selectedVideoPath = null;
+          });
+          AppAlertDialog.failedAlert(
+              title: "File Too Large", message: _errorMessage!);
+        } else {
+          setState(() {
+            _selectedVideoPath = file.path;
+            _errorMessage = null;
+          });
+        }
+      }
+    } catch (e) {
+      setState(() {
+        _errorMessage = "An error occurred: ${e.toString()}";
+      });
+      AppAlertDialog.failedAlert(title: "Error", message: _errorMessage!);
+    }
   }
 }
