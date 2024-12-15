@@ -27,25 +27,25 @@ void errorAlertWidget(
             // textAlign: TextAlign.center,
             style: textTheme.bodySmall,
           ),
-          verticalGap(10),
-          SizedBox(
-            width: double.maxFinite,
-            child: ElevatedButton(
-              onPressed: () => onTap!(),
-              style: ButtonStyle(
-                  padding: MaterialStateProperty.all(
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 2)),
-                  backgroundColor:
-                  MaterialStateProperty.all(AppColors.secondaryColor),
-                  shape: MaterialStatePropertyAll(RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10)))),
-              child: const Text("Continue",
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 14,
-                      color: Colors.white)),
-            ),
-          )
+          // verticalGap(10),
+          // SizedBox(
+          //   width: double.maxFinite,
+          //   child: ElevatedButton(
+          //     onPressed: () => onTap!(),
+          //     style: ButtonStyle(
+          //         padding: MaterialStateProperty.all(
+          //             const EdgeInsets.symmetric(horizontal: 20, vertical: 2)),
+          //         backgroundColor:
+          //         MaterialStateProperty.all(AppColors.secondaryColor),
+          //         shape: MaterialStatePropertyAll(RoundedRectangleBorder(
+          //             borderRadius: BorderRadius.circular(10)))),
+          //     child: const Text("Continue",
+          //         style: TextStyle(
+          //             fontWeight: FontWeight.bold,
+          //             fontSize: 14,
+          //             color: Colors.white)),
+          //   ),
+          // )
         ],
       ),
     ),

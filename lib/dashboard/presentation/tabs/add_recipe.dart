@@ -67,8 +67,7 @@ class _AddRecipeTabState extends ConsumerState<AddRecipeTab> {
     final strMeasure_ = ref.watch(strMeasure);
     final selectedImage_ = ref.watch(selectedImage);
 
-    CollectionReference users_ =
-        FirebaseFirestore.instance.collection("${user?.uid}");
+    CollectionReference users_ = FirebaseFirestore.instance.collection("meals");
 
     return Scaffold(
       appBar: AppBar(
@@ -83,11 +82,19 @@ class _AddRecipeTabState extends ConsumerState<AddRecipeTab> {
           Container(
             margin: EdgeInsets.only(right: Gaps.smallGap),
             child: TextButton(
-              onPressed: () {},
+              onPressed: () {
+                ref.read(selectedImage.notifier).state = "";
+                ref.read(strIngredient.notifier).state.clear();
+                ref.read(strMeasure.notifier).state.clear();
+                _mealStepsController.clear();
+                _mealCategoryController.clear();
+                _mealNameController.clear();
+                _ingredientQuantityController.clear();
+              },
               style: const ButtonStyle(
                   backgroundColor: MaterialStatePropertyAll(Colors.black)),
               child: const Text(
-                "Submit recipe",
+                "Clear recipe form",
                 style: TextStyle(color: Colors.white),
               ),
             ),
@@ -298,10 +305,11 @@ class _AddRecipeTabState extends ConsumerState<AddRecipeTab> {
                           _mealCategoryController.text.isEmpty ||
                           _mealStepsController.text.isEmpty) {
                         infoAuthAlertWidget(
-                          context,
-                          "Please ensure that you enter the meal name, meal category, and preparation steps for your recipe.",
-                          "Recipe Submission Requirements",
-                        );
+                            context,
+                            "Please ensure that you enter the meal name, meal category, and preparation steps for your recipe.",
+                            "Recipe Submission Requirements", onTap: () {
+                          context.pop();
+                        });
                       } else {
                         users_.add({
                           "strMeal	": _mealNameController.text,
@@ -318,8 +326,9 @@ class _AddRecipeTabState extends ConsumerState<AddRecipeTab> {
                               "Recipe Submitted", onTap: () {
                             context.pop();
                           });
-                        }).catchError((error){
-                          errorAlertWidget(context, error, "Recipe Submission Unsuccessful");
+                        }).catchError((error) {
+                          errorAlertWidget(
+                              context, error, "Recipe Submission Unsuccessful");
                         });
                       }
                     },
