@@ -8,6 +8,8 @@ import 'package:myrecipediary/common/recipe_card.dart';
 import 'package:myrecipediary/constants/colors.dart';
 import 'package:myrecipediary/constants/font_sizes.dart';
 import 'package:myrecipediary/constants/gaps.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class MyRecipeTab extends ConsumerStatefulWidget {
   const MyRecipeTab({super.key});
@@ -25,6 +27,8 @@ class _MyRecipeTabState extends ConsumerState<MyRecipeTab> {
     Size size = MediaQuery.of(context).size;
     TextTheme textTheme = Theme.of(context).textTheme;
 
+    final user = FirebaseAuth.instance.currentUser;
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -35,11 +39,39 @@ class _MyRecipeTabState extends ConsumerState<MyRecipeTab> {
         ),
         backgroundColor: AppColors.secondaryColor,
       ),
-      body: ListView.builder( itemBuilder: (_, index) {
-        return RecipeCard(
-          index: index,
-        );
-      }, itemCount: 6),
+      body: StreamBuilder<QuerySnapshot>(
+          stream: FirebaseFirestore.instance
+              .collection('users')
+              .doc(user?.uid)
+              .collection('recipes')
+              .snapshots(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+              return const Center(child: Text("You have no recipes yet"));
+            }
+
+            final myRecipes_ = snapshot.data!.docs;
+            // final data_ = FirebaseFirestore.instance
+            //     .collection('users')
+            //     .doc(user?.uid)
+            //     .collection('recipes').get();
+
+            return ListView.builder(
+                itemBuilder: (_, index) {
+                  final recipe =
+                      myRecipes_[index].data() as Map<String, dynamic>;
+                    print("RECIPE ${recipe}");
+                  return RecipeCard(
+                    index: index,
+                    recipeData: recipe,
+                    recipeId: myRecipes_[index].id,
+                  );
+                },
+                itemCount: myRecipes_.length);
+          }),
     );
   }
 }

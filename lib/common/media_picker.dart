@@ -5,7 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:myrecipediary/dashboard/repository/ingredient_repo.dart';
-
+import 'package:firebase_storage/firebase_storage.dart';
 import '../constants/colors.dart';
 
 class MediaPickerWidget extends ConsumerStatefulWidget {
@@ -85,6 +85,12 @@ class _MediaPickerWidgetState extends ConsumerState<MediaPickerWidget> {
       _selectedImage = File(returnedImage.path);
       print("SELECTED IMAGE ${returnedImage.name}");
     });
-    ref.read(selectedImage.notifier).state = returnedImage.name;
+    final storageRef = FirebaseStorage.instance
+        .ref()
+        .child('user_images/${DateTime.now().millisecondsSinceEpoch}.jpg');
+
+    await storageRef.putFile(_selectedImage!);
+
+    ref.read(selectedImage.notifier).state = storageRef.getDownloadURL() as String;
   }
 }

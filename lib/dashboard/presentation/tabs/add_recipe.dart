@@ -311,13 +311,22 @@ class _AddRecipeTabState extends ConsumerState<AddRecipeTab> {
                           context.pop();
                         });
                       } else {
-                        users_.add({
+                        final user = FirebaseAuth.instance.currentUser;
+                        String? uid = user?.uid;
+                        CollectionReference recipesRef = FirebaseFirestore
+                            .instance
+                            .collection('users')
+                            .doc(uid)
+                            .collection('recipes');
+                        recipesRef.add({
                           "strMeal	": _mealNameController.text,
                           "strCategory	": _mealCategoryController.text,
                           "strInstructions	": _mealStepsController.text,
                           "strMealThumb	": selectedImage_,
                           ...ref.read(ingredients.notifier).state,
                           ...ref.read(ingredientsMeasure.notifier).state,
+                          "isFavorite": false,
+                          'createdAt': FieldValue.serverTimestamp(),
                           // "strMealThumb	":
                         }).then((value) {
                           successAlertWidget(

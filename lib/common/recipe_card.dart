@@ -7,17 +7,26 @@ import '../constants/colors.dart';
 import '../constants/font_sizes.dart';
 import '../constants/gaps.dart';
 import 'gaps.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class RecipeCard extends StatefulWidget {
   final index;
-  const RecipeCard({required  this.index, super.key,});
+  final String recipeId; // ID of the recipe
+  final Map<String, dynamic> recipeData; // Recipe details to save
+
+  const RecipeCard({
+    required this.index,
+    required this.recipeData,
+    required this.recipeId,
+    super.key,
+  });
 
   @override
   State<RecipeCard> createState() => _RecipeCardState();
 }
 
 class _RecipeCardState extends State<RecipeCard> {
-
   List<String> tempImages = [
     "assets/images/chicken.jpg",
     "assets/images/dessert.jpg",
@@ -28,9 +37,22 @@ class _RecipeCardState extends State<RecipeCard> {
   ];
 
   @override
+  void initState() {
+    super.initState();
+    checkIfFavorite(); // Check the initial favorite state
+  }
+
+  // final user = FirebaseAuth.instance.currentUser;
+  // String? uid = user?.uid;
+
+  @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     TextTheme textTheme = Theme.of(context).textTheme;
+    print("RECIPE DATA ${widget.recipeData['strMeal	']}");
+
+    // print("RECIPES PRINT ${snapshot.docs}");
+
     return ClipRRect(
       borderRadius: BorderRadius.circular(10),
       child: Card(
@@ -60,7 +82,7 @@ class _RecipeCardState extends State<RecipeCard> {
                   children: [
                     Container(
                         child: Text(
-                      "Menu for dinner",
+                          widget.recipeData["strCategory	"],
                       style: GoogleFonts.openSans(
                         fontSize: FontSizes.smallFont,
                         shadows: [
@@ -83,8 +105,12 @@ class _RecipeCardState extends State<RecipeCard> {
                             color: AppColors.accentColor.shade300,
                             borderRadius: BorderRadius.circular(15)),
                         child: IconButton(
-                            onPressed: () {},
-                            icon: const Icon(Icons.favorite),
+                            onPressed: toggleFavorite,
+                            icon: Icon(
+                              isFavorite
+                                  ? Icons.favorite
+                                  : Icons.favorite_border,
+                            ),
                             color: Colors.redAccent.shade700,
                             iconSize: 25),
                       ),
@@ -96,11 +122,11 @@ class _RecipeCardState extends State<RecipeCard> {
               Container(
                   width: double.maxFinite,
                   height: size.height * 0.04,
-                  color: Colors.black.withOpacity(0.65),
+                  color: Colors.black.withOpacity(0.55),
                   padding: EdgeInsets.only(left: Gaps.smallGap),
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "Chicken Bread",
+                    widget.recipeData['strMeal	'],
                     style: GoogleFonts.openSans(
                       fontSize: FontSizes.mediumFont,
                       shadows: [
@@ -115,63 +141,55 @@ class _RecipeCardState extends State<RecipeCard> {
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                     ),
-                  )),
-              Container(
-                width: double.maxFinite,
-                height: size.height * 0.04,
-                padding: EdgeInsets.only(left: Gaps.smallGap),
-                alignment: Alignment.centerLeft,
-                decoration: BoxDecoration(
-                  color: Colors.black.withOpacity(0.65),
-                  borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(10),
-                      bottomRight: Radius.circular(10)),
-                ),
-                child: Row(
-                  children: [
-                    Container(
-                      child: Icon(
-                        Icons.timer,
-                        color: Colors.white,
-                      ),
-                    ),
-                    Text(
-                      "30 min",
-                      style: GoogleFonts.openSans(
-                        fontSize: FontSizes.smallFont,
-                        color: Colors.white,
-                        // fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    horizontalGap(Gaps.smallGap),
-                    Container(
-                      child: Icon(
-                        FontAwesomeIcons.fireBurner,
-                        color: Colors.white,
-                      ),
-                    ),
-                    Text(
-                      "Easy lvl",
-                      style: GoogleFonts.openSans(
-                        fontSize: FontSizes.smallFont,
-                        shadows: [
-                          const Shadow(
-                            offset: Offset(3.0, 3.0), // Shadow position
-                            blurRadius: 3.0, // Shadow blur effect
-                            color: Colors.black, // Shadow color
-                          ),
-                        ],
-                        color: Colors.white,
-                        // fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-              )
+                  ))
             ],
           ),
         ),
       ),
     );
+  }
+
+  bool isFavorite = false;
+
+  void checkIfFavorite() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) return;
+
+    final doc = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user.uid)
+        .collection('favorites')
+        .doc(widget.recipeId)
+        .get();
+
+    setState(() {
+      // isFavorite = doc.exists;
+    });
+  }
+
+  void toggleFavorite() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) return;
+
+    final favoritesRef = FirebaseFirestore.instance
+        .collection('users')
+        .doc(user.uid)
+        .collection('favorites')
+        .doc(widget.recipeId);
+
+    if (isFavorite) {
+      // Remove from favorites
+      await favoritesRef.delete();
+    } else {
+      // Add to favorites
+      await favoritesRef.set({
+        ...widget.recipeData,
+        'addedAt': FieldValue.serverTimestamp(),
+      });
+    }
+
+    setState(() {
+      isFavorite = !isFavorite;
+    });
   }
 }

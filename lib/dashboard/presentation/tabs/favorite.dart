@@ -29,9 +29,11 @@ class _FavoriteTabState extends ConsumerState<FavoriteTab> {
         backgroundColor: AppColors.secondaryColor,
       ),
       body: ListView.builder( itemBuilder: (_, index) {
-        return RecipeCard(
-          index: index,
-        );
+        return Text("data");
+        //   RecipeCard(
+        //   index: index,
+        //   recipeData: ,
+        // );
       }, itemCount: 6),
     );
   }
