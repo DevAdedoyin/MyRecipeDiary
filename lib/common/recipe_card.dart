@@ -67,8 +67,8 @@ class _RecipeCardState extends State<RecipeCard> {
             borderRadius: BorderRadius.circular(10),
             image: DecorationImage(
               fit: BoxFit.cover,
-              image: AssetImage(
-                tempImages[widget.index],
+              image: NetworkImage(
+                widget.recipeData["strMealThumb	"],
               ),
             ),
           ),
@@ -82,9 +82,9 @@ class _RecipeCardState extends State<RecipeCard> {
                   children: [
                     Container(
                         child: Text(
-                          widget.recipeData["strCategory	"],
+                      widget.recipeData["strCategory	"],
                       style: GoogleFonts.openSans(
-                        fontSize: FontSizes.smallFont,
+                        fontSize: FontSizes.mediumFont,
                         shadows: [
                           const Shadow(
                             offset: Offset(3.0, 3.0),
@@ -107,12 +107,12 @@ class _RecipeCardState extends State<RecipeCard> {
                         child: IconButton(
                             onPressed: toggleFavorite,
                             icon: Icon(
-                              isFavorite
+                              widget.recipeData["isFavorite"]
                                   ? Icons.favorite
                                   : Icons.favorite_border,
                             ),
                             color: Colors.redAccent.shade700,
-                            iconSize: 25),
+                            iconSize: 35),
                       ),
                     ),
                   ],
@@ -121,14 +121,14 @@ class _RecipeCardState extends State<RecipeCard> {
               Spacer(),
               Container(
                   width: double.maxFinite,
-                  height: size.height * 0.04,
+                  height: size.height * 0.06,
                   color: Colors.black.withOpacity(0.55),
                   padding: EdgeInsets.only(left: Gaps.smallGap),
                   alignment: Alignment.centerLeft,
                   child: Text(
                     widget.recipeData['strMeal	'],
                     style: GoogleFonts.openSans(
-                      fontSize: FontSizes.mediumFont,
+                      fontSize: FontSizes.bigMediumFont,
                       shadows: [
                         const Shadow(
                           offset: Offset(3.0, 3.0),
@@ -167,29 +167,25 @@ class _RecipeCardState extends State<RecipeCard> {
     });
   }
 
-  void toggleFavorite() async {
+  Future<void> toggleFavorite() async {
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) return;
-
-    final favoritesRef = FirebaseFirestore.instance
-        .collection('users')
-        .doc(user.uid)
-        .collection('favorites')
-        .doc(widget.recipeId);
-
-    if (isFavorite) {
-      // Remove from favorites
-      await favoritesRef.delete();
-    } else {
-      // Add to favorites
-      await favoritesRef.set({
-        ...widget.recipeData,
-        'addedAt': FieldValue.serverTimestamp(),
-      });
-    }
 
     setState(() {
       isFavorite = !isFavorite;
     });
+
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user.uid)
+        .collection('recipes')
+        .doc(widget.recipeId)
+      .update({'isFavorite': isFavorite});
+
+    // if (docSnapshot.exists) {
+    //   setState(() {
+    //     isFavorite = docSnapshot.data()?['isFavorite'] ?? false;
+    //   });
+    // }
   }
 }

@@ -111,32 +111,32 @@ class _AddRecipeTabState extends ConsumerState<AddRecipeTab> {
               children: [
                 verticalGap(size.height * 0.02),
                 const MediaPickerWidget(isImage: true),
-                verticalGap(size.height * 0.02),
-                Container(
-                    width: size.width * 0.9,
-                    padding:
-                        EdgeInsets.symmetric(horizontal: Gaps.extraSmallGap),
-                    decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.black,
-                        ),
-                        borderRadius: BorderRadius.circular(7)),
-                    child: Row(
-                      children: [
-                        Expanded(
-                            child: Container(
-                          child: Text(
-                            _selectedVideoPath == null
-                                ? "Select video"
-                                : _selectedVideoPath!,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        )),
-                        IconButton(
-                            onPressed: _pickVideo,
-                            icon: const Icon(FontAwesomeIcons.video)),
-                      ],
-                    )),
+                // verticalGap(size.height * 0.02),
+                // Container(
+                //     width: size.width * 0.9,
+                //     padding:
+                //         EdgeInsets.symmetric(horizontal: Gaps.extraSmallGap),
+                //     decoration: BoxDecoration(
+                //         border: Border.all(
+                //           color: Colors.black,
+                //         ),
+                //         borderRadius: BorderRadius.circular(7)),
+                //     child: Row(
+                //       children: [
+                //         Expanded(
+                //             child: Container(
+                //           child: Text(
+                //             _selectedVideoPath == null
+                //                 ? "Select video"
+                //                 : _selectedVideoPath!,
+                //             overflow: TextOverflow.ellipsis,
+                //           ),
+                //         )),
+                //         IconButton(
+                //             onPressed: _pickVideo,
+                //             icon: const Icon(FontAwesomeIcons.video)),
+                //       ],
+                //     )),
                 verticalGap(size.height * 0.03),
                 SizedBox(
                   width: size.width * 0.9,

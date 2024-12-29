@@ -2,7 +2,7 @@
   "project_info": {
     "project_number": "382856269132",
     "project_id": "myrecipediary-7365a",
-    "storage_bucket": "myrecipediary-7365a.appspot.com"
+    "storage_bucket": "myrecipediary-7365a.firebasestorage.app"
   },
   "client": [
     {
