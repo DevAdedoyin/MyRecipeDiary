@@ -69,6 +69,16 @@ class _AddRecipeTabState extends ConsumerState<AddRecipeTab> {
 
     CollectionReference users_ = FirebaseFirestore.instance.collection("meals");
 
+    clearData() {
+      ref.read(selectedImage.notifier).state = "";
+      ref.read(strIngredient.notifier).state.clear();
+      ref.read(strMeasure.notifier).state.clear();
+      _mealStepsController.clear();
+      _mealCategoryController.clear();
+      _mealNameController.clear();
+      _ingredientQuantityController.clear();
+    }
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -82,15 +92,7 @@ class _AddRecipeTabState extends ConsumerState<AddRecipeTab> {
           Container(
             margin: EdgeInsets.only(right: Gaps.smallGap),
             child: TextButton(
-              onPressed: () {
-                ref.read(selectedImage.notifier).state = "";
-                ref.read(strIngredient.notifier).state.clear();
-                ref.read(strMeasure.notifier).state.clear();
-                _mealStepsController.clear();
-                _mealCategoryController.clear();
-                _mealNameController.clear();
-                _ingredientQuantityController.clear();
-              },
+              onPressed: clearData,
               style: const ButtonStyle(
                   backgroundColor: MaterialStatePropertyAll(Colors.black)),
               child: const Text(
@@ -329,6 +331,7 @@ class _AddRecipeTabState extends ConsumerState<AddRecipeTab> {
                           'createdAt': FieldValue.serverTimestamp(),
                           // "strMealThumb	":
                         }).then((value) {
+                          clearData();
                           successAlertWidget(
                               context,
                               "Your recipe has been successfully submitted",

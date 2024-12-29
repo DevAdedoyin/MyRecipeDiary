@@ -39,11 +39,8 @@ class _RecipeCardState extends State<RecipeCard> {
   @override
   void initState() {
     super.initState();
-    checkIfFavorite(); // Check the initial favorite state
+    isFavorite = widget.recipeData['isFavorite'] ?? false;
   }
-
-  // final user = FirebaseAuth.instance.currentUser;
-  // String? uid = user?.uid;
 
   @override
   Widget build(BuildContext context) {
