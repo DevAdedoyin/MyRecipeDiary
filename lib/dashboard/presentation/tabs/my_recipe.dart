@@ -63,7 +63,7 @@ class _MyRecipeTabState extends ConsumerState<MyRecipeTab> {
                 itemBuilder: (_, index) {
                   final recipe =
                       myRecipes_[index].data() as Map<String, dynamic>;
-                    print("RECIPE ${recipe}");
+                    // print("RECIPE ${recipe}");
                   return RecipeCard(
                     index: index,
                     recipeData: recipe,
