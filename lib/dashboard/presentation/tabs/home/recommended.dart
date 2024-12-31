@@ -94,13 +94,7 @@ class _RecommendedRecipesState extends State<RecommendedRecipes> {
                                 borderRadius: BorderRadius.circular(15)),
                             child: IconButton(
                                 onPressed: () async {
-
-                                  await FirebaseFirestore
-                                      .instance
-                                      .collection('users')
-                                      .doc(FirebaseAuth.instance.currentUser?.uid)
-                                      .collection('recipes').add(mealObject);
-                                  toggleFavorite(mealObject_.id);
+                                  toggleFavorite(mealObject, mealObject_.id);
                                 },
                                 icon: Icon(
                                   mealObject["isFavorite"] ??
@@ -112,7 +106,7 @@ class _RecommendedRecipesState extends State<RecommendedRecipes> {
                                 iconSize: 35),
                           ),
                         ),
-                        Spacer(),
+                        const Spacer(),
                         Container(
                           width: double.maxFinite,
                           // height: size.height * 0.04,
@@ -196,34 +190,66 @@ class _RecommendedRecipesState extends State<RecommendedRecipes> {
         });
   }
 
-
-    @override
+  @override
   void initState() {
     // TODO: implement initState
     super.initState();
-
   }
+
   bool isFavorite = false;
 
-  Future<void> toggleFavorite(recipeId) async {
-    final user = FirebaseAuth.instance.currentUser;
-    if (user == null) return;
+  Future<void> toggleFavorite(
+      Map<String, dynamic> mealObject, String mealObjectId) async {
+    final userId = FirebaseAuth.instance.currentUser?.uid;
+
+    if (userId == null) {
+      print("User not logged in");
+      return;
+    }
 
     setState(() {
       isFavorite = !isFavorite;
     });
 
-    await FirebaseFirestore.instance
+    final recipesRef = FirebaseFirestore.instance
         .collection('users')
-        .doc(user.uid)
-        .collection('recipes')
-        .doc(recipeId)
-        .update({'isFavorite': isFavorite});
+        .doc(userId)
+        .collection('recipes');
 
-    // if (docSnapshot.exists) {
-    //   setState(() {
-    //     isFavorite = docSnapshot.data()?['isFavorite'] ?? false;
-    //   });
-    // }
+    final recipeName = mealObject["strMeal"] ?? mealObject["strMeal "];
+    final favorite =
+        mealObject["isFavorite"] ?? mealObject["isFavorite "] == true
+            ? false
+            : true; // Ensure 'isFavorite' exists
+
+    try {
+      // Check if the item exists
+      final querySnapshot = await recipesRef
+          .where("strMeal", isEqualTo: recipeName)
+          .get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        // Update isFavorite if the item exists
+        FirebaseFirestore.instance
+            .collection('recommended')
+            .doc(mealObjectId)
+            .update({"isFavorite": favorite});
+        final docId = querySnapshot.docs.first.id;
+        await recipesRef.doc(docId).update({'isFavorite': favorite});
+        print("Updated existing recipe with name: $recipeName");
+      } else {
+        // Add the new item if it doesn't exist
+        FirebaseFirestore.instance
+            .collection('recommended')
+            .doc(mealObjectId)
+            .update({"isFavorite": true});
+        mealObject.remove("isFavorite ");
+        mealObject['isFavorite'] = true;
+        await recipesRef.add(mealObject);
+        print("Added new recipe with name: $recipeName");
+      }
+    } catch (e) {
+      print("Error adding or updating recipe: $e");
+    }
   }
 }
