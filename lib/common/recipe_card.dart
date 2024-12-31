@@ -39,7 +39,10 @@ class _RecipeCardState extends State<RecipeCard> {
   @override
   void initState() {
     super.initState();
-    isFavorite = widget.recipeData['isFavorite'] ?? widget.recipeData['isFavorite '] ? true : false;
+    isFavorite =
+        widget.recipeData['isFavorite'] ?? widget.recipeData['isFavorite ']
+            ? true
+            : false;
   }
 
   @override
@@ -65,7 +68,9 @@ class _RecipeCardState extends State<RecipeCard> {
             image: DecorationImage(
               fit: BoxFit.cover,
               image: NetworkImage(
-                widget.recipeData["strMealThumb	"] ?? widget.recipeData["strMealThumb "] ?? widget.recipeData["strMealThumb"],
+                widget.recipeData["strMealThumb	"] ??
+                    widget.recipeData["strMealThumb "] ??
+                    widget.recipeData["strMealThumb"],
               ),
             ),
           ),
@@ -79,7 +84,8 @@ class _RecipeCardState extends State<RecipeCard> {
                   children: [
                     Container(
                         child: Text(
-                      widget.recipeData["strCategory	"] ?? widget.recipeData["strCategory"],
+                      widget.recipeData["strCategory	"] ??
+                          widget.recipeData["strCategory"],
                       style: GoogleFonts.openSans(
                         fontSize: FontSizes.mediumFont,
                         shadows: [
@@ -104,7 +110,8 @@ class _RecipeCardState extends State<RecipeCard> {
                         child: IconButton(
                             onPressed: toggleFavorite,
                             icon: Icon(
-                              widget.recipeData["isFavorite"] ?? widget.recipeData["isFavorite "]
+                              widget.recipeData["isFavorite"] ??
+                                      widget.recipeData["isFavorite "]
                                   ? Icons.favorite
                                   : Icons.favorite_border,
                             ),
@@ -123,7 +130,9 @@ class _RecipeCardState extends State<RecipeCard> {
                   padding: EdgeInsets.only(left: Gaps.smallGap),
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    widget.recipeData["strMeal	"] ?? widget.recipeData["strMeal"] ?? widget.recipeData["strMeal "] ,
+                    widget.recipeData["strMeal	"] ??
+                        widget.recipeData["strMeal"] ??
+                        widget.recipeData["strMeal "],
                     style: GoogleFonts.openSans(
                       fontSize: FontSizes.bigMediumFont,
                       shadows: [
@@ -148,22 +157,6 @@ class _RecipeCardState extends State<RecipeCard> {
 
   bool isFavorite = false;
 
-  void checkIfFavorite() async {
-    final user = FirebaseAuth.instance.currentUser;
-    if (user == null) return;
-
-    final doc = await FirebaseFirestore.instance
-        .collection('users')
-        .doc(user.uid)
-        .collection('favorites')
-        .doc(widget.recipeId)
-        .get();
-
-    setState(() {
-      // isFavorite = doc.exists;
-    });
-  }
-
   Future<void> toggleFavorite() async {
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) return;
@@ -172,12 +165,20 @@ class _RecipeCardState extends State<RecipeCard> {
       isFavorite = !isFavorite;
     });
 
+    final recipe = FirebaseFirestore.instance
+        .collection('recommended');
+
+    final querySnapshot = await recipe.where("strMeal", isEqualTo: widget.recipeData["strMeal"]).get();
+
+   await recipe.doc(querySnapshot.docs.first.id).update({'isFavorite': isFavorite});
+
+
     await FirebaseFirestore.instance
         .collection('users')
         .doc(user.uid)
         .collection('recipes')
         .doc(widget.recipeId)
-      .update({'isFavorite': isFavorite});
+        .update({'isFavorite': isFavorite});
 
     // if (docSnapshot.exists) {
     //   setState(() {
