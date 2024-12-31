@@ -54,10 +54,6 @@ class _MyRecipeTabState extends ConsumerState<MyRecipeTab> {
             }
 
             final myRecipes_ = snapshot.data!.docs;
-            // final data_ = FirebaseFirestore.instance
-            //     .collection('users')
-            //     .doc(user?.uid)
-            //     .collection('recipes').get();
 
             return ListView.builder(
                 itemBuilder: (_, index) {

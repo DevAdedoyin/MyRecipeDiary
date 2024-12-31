@@ -39,7 +39,7 @@ class _RecipeCardState extends State<RecipeCard> {
   @override
   void initState() {
     super.initState();
-    isFavorite = widget.recipeData['isFavorite'] ?? false;
+    isFavorite = widget.recipeData['isFavorite'] ?? widget.recipeData['isFavorite '] ? true : false;
   }
 
   @override
@@ -65,7 +65,7 @@ class _RecipeCardState extends State<RecipeCard> {
             image: DecorationImage(
               fit: BoxFit.cover,
               image: NetworkImage(
-                widget.recipeData["strMealThumb	"],
+                widget.recipeData["strMealThumb	"] ?? widget.recipeData["strMealThumb "] ?? widget.recipeData["strMealThumb"],
               ),
             ),
           ),
@@ -79,7 +79,7 @@ class _RecipeCardState extends State<RecipeCard> {
                   children: [
                     Container(
                         child: Text(
-                      widget.recipeData["strCategory	"],
+                      widget.recipeData["strCategory	"] ?? widget.recipeData["strCategory"],
                       style: GoogleFonts.openSans(
                         fontSize: FontSizes.mediumFont,
                         shadows: [
@@ -104,7 +104,7 @@ class _RecipeCardState extends State<RecipeCard> {
                         child: IconButton(
                             onPressed: toggleFavorite,
                             icon: Icon(
-                              widget.recipeData["isFavorite"]
+                              widget.recipeData["isFavorite"] ?? widget.recipeData["isFavorite "]
                                   ? Icons.favorite
                                   : Icons.favorite_border,
                             ),
@@ -123,7 +123,7 @@ class _RecipeCardState extends State<RecipeCard> {
                   padding: EdgeInsets.only(left: Gaps.smallGap),
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    widget.recipeData['strMeal	'],
+                    widget.recipeData["strMeal	"] ?? widget.recipeData["strMeal"] ?? widget.recipeData["strMeal "] ,
                     style: GoogleFonts.openSans(
                       fontSize: FontSizes.bigMediumFont,
                       shadows: [

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,8 @@ import 'package:myrecipediary/common/shimmer_loaders/recommended_shimmer.dart';
 import 'package:myrecipediary/constants/colors.dart';
 import 'package:myrecipediary/constants/gaps.dart';
 
+import '../../../../common/alert_dialogs/error_alert_dialog.dart';
+import '../../../../common/alert_dialogs/success_alert_dialog.dart';
 import '../../../../constants/font_sizes.dart';
 
 class RecommendedRecipes extends StatefulWidget {
@@ -90,8 +93,21 @@ class _RecommendedRecipesState extends State<RecommendedRecipes> {
                                 color: AppColors.accentColor.shade300,
                                 borderRadius: BorderRadius.circular(15)),
                             child: IconButton(
-                                onPressed: () {},
-                                icon: const Icon(Icons.favorite),
+                                onPressed: () async {
+
+                                  await FirebaseFirestore
+                                      .instance
+                                      .collection('users')
+                                      .doc(FirebaseAuth.instance.currentUser?.uid)
+                                      .collection('recipes').add(mealObject);
+                                  toggleFavorite(mealObject_.id);
+                                },
+                                icon: Icon(
+                                  mealObject["isFavorite"] ??
+                                          mealObject["isFavorite "]
+                                      ? Icons.favorite
+                                      : Icons.favorite_border,
+                                ),
                                 color: Colors.redAccent.shade700,
                                 iconSize: 35),
                           ),
@@ -178,5 +194,36 @@ class _RecommendedRecipesState extends State<RecommendedRecipes> {
           }
           return const RecommendedShimmerLoader();
         });
+  }
+
+
+    @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+  }
+  bool isFavorite = false;
+
+  Future<void> toggleFavorite(recipeId) async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) return;
+
+    setState(() {
+      isFavorite = !isFavorite;
+    });
+
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user.uid)
+        .collection('recipes')
+        .doc(recipeId)
+        .update({'isFavorite': isFavorite});
+
+    // if (docSnapshot.exists) {
+    //   setState(() {
+    //     isFavorite = docSnapshot.data()?['isFavorite'] ?? false;
+    //   });
+    // }
   }
 }
