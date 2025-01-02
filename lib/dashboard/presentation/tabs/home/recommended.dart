@@ -86,41 +86,71 @@ class _RecommendedRecipesState extends State<RecommendedRecipes> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Container(
-                          alignment: Alignment.centerRight,
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: AppColors.accentColor.shade300,
-                                borderRadius: BorderRadius.circular(15)),
-                            child: IconButton(
-                                onPressed: () async {
-                                  toggleFavorite(mealObject, mealObject_.id);
-                                },
-                                icon: Icon(
-                                  mealObject["isFavorite"] ??
-                                          mealObject["isFavorite "]
-                                      ? Icons.favorite
-                                      : Icons.favorite_border,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              padding: EdgeInsets.all(
+                                Gaps.smallGap,
+                              ),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Colors.black.withOpacity(0.7),
+                              ),
+                              child: Text(
+                                "${mealObject["strCategory"] ?? mealObject["strCategory "]}",
+                                style: GoogleFonts.openSans(
+                                  fontSize: FontSizes.smallFont,
+                                  shadows: [
+                                    const Shadow(
+                                      offset: Offset(3.0, 3.0),
+                                      // Shadow position
+                                      blurRadius: 3.0,
+                                      // Shadow blur effect
+                                      color: Colors.black, // Shadow color
+                                    ),
+                                  ],
+                                  color: Colors.white,
+                                  fontStyle: FontStyle.italic,
+                                  fontWeight: FontWeight.w600,
                                 ),
-                                color: Colors.redAccent.shade700,
-                                iconSize: 35),
-                          ),
+                              ),
+                            ),
+                            Container(
+                              alignment: Alignment.centerRight,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    color: AppColors.accentColor.shade300,
+                                    borderRadius: BorderRadius.circular(15)),
+                                child: IconButton(
+                                    onPressed: () async {
+                                      toggleFavorite(
+                                          mealObject, mealObject_.id);
+                                    },
+                                    icon: Icon(
+                                      mealObject["isFavorite"] ??
+                                              mealObject["isFavorite "]
+                                          ? Icons.favorite
+                                          : Icons.favorite_border,
+                                    ),
+                                    color: Colors.redAccent.shade700,
+                                    iconSize: 35),
+                              ),
+                            ),
+                          ],
                         ),
                         const Spacer(),
                         Container(
                           width: double.maxFinite,
-                          // height: size.height * 0.04,
-
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
-                            color: Colors.black.withOpacity(0.75),
+                            color: Colors.black.withOpacity(0.7),
                           ),
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 5, vertical: 5),
+                          padding: EdgeInsets.all(Gaps.smallGap),
                           child: Column(
                             children: [
                               Text(
-                                "${mealObject["strMeal"] ?? mealObject["strMeal "]}",
+                                "${mealObject["strMeal"]}",
                                 textAlign: TextAlign.center,
                                 style: GoogleFonts.openSans(
                                   fontSize: FontSizes.bigMediumFont,
@@ -137,47 +167,9 @@ class _RecommendedRecipesState extends State<RecommendedRecipes> {
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              Text(
-                                "${mealObject["strCategory"] ?? mealObject["strCategory "]}",
-                                style: GoogleFonts.openSans(
-                                  fontSize: FontSizes.smallFont,
-                                  shadows: [
-                                    const Shadow(
-                                      offset: Offset(3.0, 3.0),
-                                      // Shadow position
-                                      blurRadius: 3.0,
-                                      // Shadow blur effect
-                                      color: Colors.black, // Shadow color
-                                    ),
-                                  ],
-                                  color: Colors.white,
-                                  fontStyle: FontStyle.italic,
-                                  fontWeight: FontWeight.w800,
-                                ),
-                              ),
                             ],
                           ),
                         ),
-                        // Container(
-                        //   width: double.maxFinite,
-                        //   height: size.height * 0.04,
-                        //   color: Colors.black.withOpacity(0.65),
-                        //   child: Text(
-                        //     "${mealObject["meal_ingredients"].length} Ingredients | 45 mins",
-                        //     style: GoogleFonts.openSans(
-                        //       fontSize: FontSizes.smallFont,
-                        //       shadows: [
-                        //         const Shadow(
-                        //           offset: Offset(3.0, 3.0), // Shadow position
-                        //           blurRadius: 3.0, // Shadow blur effect
-                        //           color: Colors.black, // Shadow color
-                        //         ),
-                        //       ],
-                        //       color: Colors.white,
-                        //       fontWeight: FontWeight.w400,
-                        //     ),
-                        //   ),
-                        // ),
                         verticalGap(Gaps.mediumGap)
                       ],
                     ),
@@ -224,9 +216,8 @@ class _RecommendedRecipesState extends State<RecommendedRecipes> {
 
     try {
       // Check if the item exists
-      final querySnapshot = await recipesRef
-          .where("strMeal", isEqualTo: recipeName)
-          .get();
+      final querySnapshot =
+          await recipesRef.where("strMeal", isEqualTo: recipeName).get();
 
       if (querySnapshot.docs.isNotEmpty) {
         // Update isFavorite if the item exists

@@ -13,6 +13,7 @@ class AppRoutes {
   static const String settings = '/settings';
   static const String dashboard = '/dashboard';
   static const String categoryMealScreen = '/categoryMealScreen';
+  static const String detailScreen = '/detailScreen';
 
 
 

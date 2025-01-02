@@ -9,7 +9,9 @@ class AppTextTheme {
   // LIGHT Mode Text Theme
   static TextTheme lightTextTheme = TextTheme(
     headlineLarge: const TextStyle().copyWith(
-        fontSize: FontSizes.extraLargeFont, fontWeight: FontWeight.bold, color: Colors.black),
+        fontSize: FontSizes.extraLargeFont,
+        fontWeight: FontWeight.bold,
+        color: Colors.black),
     headlineMedium: const TextStyle().copyWith(
         fontSize: 24.0, fontWeight: FontWeight.w600, color: Colors.black),
     headlineSmall: const TextStyle().copyWith(
@@ -29,13 +31,22 @@ class AppTextTheme {
     bodyMedium: const TextStyle().copyWith(
         fontSize: 17.5, fontWeight: FontWeight.w500, color: Colors.black),
     bodySmall: const TextStyle().copyWith(
-        fontSize: FontSizes.extraSmallFont, fontWeight: FontWeight.w400, color: Colors.black),
+        fontSize: FontSizes.extraSmallFont,
+        fontWeight: FontWeight.w400,
+        color: Colors.black),
 
     // label theme
     labelLarge: const TextStyle().copyWith(
-        fontSize: 12.0, fontWeight: FontWeight.bold, color: Colors.black),
-    labelMedium: const TextStyle().copyWith(
-        fontSize: 12.0, fontWeight: FontWeight.w600, color: Colors.black),
+        fontSize: 16,
+        color: Colors.grey,
+        fontWeight: FontWeight.w600),
+    labelSmall: const TextStyle().copyWith(
+      fontSize: 12,
+      color: Colors.grey,
+      fontWeight: FontWeight.w600
+    ),
+    labelMedium: const TextStyle()
+        .copyWith(fontSize:14, color: Colors.grey, fontWeight: FontWeight.w600),
   );
 
   // DARK Mode Text Theme
@@ -76,8 +87,7 @@ class AppTextTheme {
       fontWeight: FontWeight.w700,
       fontStyle: FontStyle.italic,
       fontSize: FontSizes.mediumFont,
-      color: AppColors.secondaryColor
-  );
+      color: AppColors.secondaryColor);
 
   // Splash Screen Text Theme
   static TextStyle metaTextTheme = GoogleFonts.montserrat(

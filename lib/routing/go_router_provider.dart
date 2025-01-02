@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:myrecipediary/common/detail_screen.dart';
 import 'package:myrecipediary/routing/route_error_screen.dart';
 import '../dashboard/presentation/category_meals.dart';
 import '../dashboard/presentation/dashboard.dart';
@@ -40,10 +41,10 @@ GoRouter goRouter = GoRouter(
       path: AppRoutes.categoryMealScreen,
       builder: (context, state) => const CategoryMealsScreen(),
     ),
-    // GoRoute(
-    //   path: AppRoutes.changePassword,
-    //   builder: (context, state) => const ChangePasswordScreen(),
-    // ),
+    GoRoute(
+      path: AppRoutes.detailScreen,
+      builder: (context, state) => const DetailScreen(),
+    ),
   ],
   errorBuilder: (context, state) => RouteErrorScreen(
     errorMsg: state.error.toString(),
