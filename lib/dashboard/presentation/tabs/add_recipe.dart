@@ -321,10 +321,10 @@ class _AddRecipeTabState extends ConsumerState<AddRecipeTab> {
                             .doc(uid)
                             .collection('recipes');
                         recipesRef.add({
-                          "strMeal	": _mealNameController.text,
-                          "strCategory	": _mealCategoryController.text,
-                          "strInstructions	": _mealStepsController.text,
-                          "strMealThumb	": selectedImage_,
+                          "strMeal": _mealNameController.text,
+                          "strCategory": _mealCategoryController.text,
+                          "strInstructions": _mealStepsController.text,
+                          "strMealThumb": selectedImage_,
                           ...ref.read(ingredients.notifier).state,
                           ...ref.read(ingredientsMeasure.notifier).state,
                           "isFavorite": false,

@@ -49,7 +49,7 @@ class _RecipeCardState extends State<RecipeCard> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     TextTheme textTheme = Theme.of(context).textTheme;
-    print("RECIPE DATA ${widget.recipeData['strMeal	']}");
+    // print("RECIPE DATA ${widget.recipeData['strMeal	']}");
 
     // print("RECIPES PRINT ${snapshot.docs}");
 
@@ -68,9 +68,7 @@ class _RecipeCardState extends State<RecipeCard> {
             image: DecorationImage(
               fit: BoxFit.cover,
               image: NetworkImage(
-                widget.recipeData["strMealThumb	"] ??
-                    widget.recipeData["strMealThumb "] ??
-                    widget.recipeData["strMealThumb"],
+                widget.recipeData["strMealThumb"],
               ),
             ),
           ),
@@ -83,24 +81,31 @@ class _RecipeCardState extends State<RecipeCard> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
+                        padding: EdgeInsets.all(
+                          Gaps.smallGap,
+                        ),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.black.withOpacity(0.7),
+                        ),
                         child: Text(
-                      widget.recipeData["strCategory	"] ??
-                          widget.recipeData["strCategory"],
-                      style: GoogleFonts.openSans(
-                        fontSize: FontSizes.mediumFont,
-                        shadows: [
-                          const Shadow(
-                            offset: Offset(3.0, 3.0),
-                            // Shadow position
-                            blurRadius: 3.0,
-                            // Shadow blur effect
-                            color: Colors.black, // Shadow color
+                          widget.recipeData["strCategory	"] ??
+                              widget.recipeData["strCategory"],
+                          style: GoogleFonts.openSans(
+                            fontSize: FontSizes.mediumFont,
+                            shadows: [
+                              const Shadow(
+                                offset: Offset(3.0, 3.0),
+                                // Shadow position
+                                blurRadius: 3.0,
+                                // Shadow blur effect
+                                color: Colors.black, // Shadow color
+                              ),
+                            ],
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
                           ),
-                        ],
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    )),
+                        )),
                     Container(
                       alignment: Alignment.centerRight,
                       child: Container(
@@ -124,15 +129,18 @@ class _RecipeCardState extends State<RecipeCard> {
               ),
               Spacer(),
               Container(
+                  margin: EdgeInsets.all(Gaps.smallGap),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.black.withOpacity(0.7),
+                  ),
                   width: double.maxFinite,
                   height: size.height * 0.06,
-                  color: Colors.black.withOpacity(0.55),
                   padding: EdgeInsets.only(left: Gaps.smallGap),
-                  alignment: Alignment.centerLeft,
+                  alignment: Alignment.center,
                   child: Text(
-                    widget.recipeData["strMeal	"] ??
-                        widget.recipeData["strMeal"] ??
-                        widget.recipeData["strMeal "],
+                    widget.recipeData["strMeal"],
+                    textAlign: TextAlign.center,
                     style: GoogleFonts.openSans(
                       fontSize: FontSizes.bigMediumFont,
                       shadows: [
@@ -165,13 +173,15 @@ class _RecipeCardState extends State<RecipeCard> {
       isFavorite = !isFavorite;
     });
 
-    final recipe = FirebaseFirestore.instance
-        .collection('recommended');
+    final recipe = FirebaseFirestore.instance.collection('recommended');
 
-    final querySnapshot = await recipe.where("strMeal", isEqualTo: widget.recipeData["strMeal"]).get();
+    final querySnapshot = await recipe
+        .where("strMeal", isEqualTo: widget.recipeData["strMeal"])
+        .get();
 
-   await recipe.doc(querySnapshot.docs.first.id).update({'isFavorite': isFavorite});
-
+    await recipe
+        .doc(querySnapshot.docs.first.id)
+        .update({'isFavorite': isFavorite});
 
     await FirebaseFirestore.instance
         .collection('users')
