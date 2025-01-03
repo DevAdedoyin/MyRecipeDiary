@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:myrecipediary/common/gaps.dart';
 import 'package:myrecipediary/constants/gaps.dart';
+import 'package:myrecipediary/routing/go_router_provider.dart';
 
 import '../constants/colors.dart';
 
@@ -68,6 +69,43 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
                     ),
                   ),
                 ),
+                Positioned(
+                  top: Gaps.largeGap,
+                  left: Gaps.smallGap,
+                  right: Gaps.smallGap,
+                  child: Container(
+                    width: size.width * 0.7,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        IconButton(
+                            color: AppColors.secondaryColor,
+                            style: const ButtonStyle(
+                                backgroundColor: MaterialStatePropertyAll(
+                                    AppColors.secondaryColor)),
+                            onPressed: () {
+                              goRouter.pop();
+                            },
+                            icon: const Icon(
+                              Icons.arrow_back,
+                              color: Colors.white,
+                            )),
+                        IconButton(
+                            color: AppColors.secondaryColor,
+                            style: const ButtonStyle(
+                                backgroundColor: MaterialStatePropertyAll(
+                                    Colors.white)),
+                            onPressed: () {
+                              goRouter.pop();
+                            },
+                            icon: const Icon(
+                              Icons.favorite,
+                              color: Colors.red,
+                            )),
+                      ],
+                    ),
+                  ),
+                )
               ],
             ),
             verticalGap(Gaps.smallGap),
@@ -138,9 +176,10 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
                           Icons.kitchen,
                           color: AppColors.secondaryColor,
                         ),
-                        title: Text("${recipeData['strIngredient$index']}"),
+                        title: Text(
+                            "${recipeData['strIngredient$index'] ?? recipeData['strIngredient$index ']}"),
                         subtitle: Text(
-                          'Quantity: ${recipeData['strMeasure$index']}',
+                          'Quantity: ${recipeData['strMeasure$index'] ?? recipeData['strMeasure$index ']}',
                           style: textTheme.labelMedium,
                         ),
                       ),
@@ -149,6 +188,7 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
                 },
               ),
             ),
+            verticalGap(Gaps.smallGap),
             Container(
                 margin: EdgeInsets.symmetric(vertical: Gaps.smallGap),
                 alignment: Alignment.centerLeft,
@@ -157,9 +197,11 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
             Container(
                 width: size.width * 0.9,
                 child: Text(
-                  recipeData['strInstructions'],
+                  recipeData['strInstructions'] ??
+                      recipeData['strInstructions '],
                   style: textTheme.labelMedium,
                 )),
+            verticalGap(Gaps.smallGap),
           ],
         ),
       ),
